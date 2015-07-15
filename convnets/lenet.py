@@ -319,15 +319,3 @@ def evaluate_lenet5(train, test, valid,
           (best_validation_loss * 100., best_iter + 1, test_score * 100.))
     print >> sys.stderr, ('The code ran for %.2fm' %
                           ((end_time - start_time) / 60.))
-
-    # Call Python GC to make sure the GPU memory is freed. That way,
-    # we are sure next call will have enough memory.
-    import gc
-    for i in range(4):
-        gc.collect()
-
-train = MNIST(which_sets=('train',), subset=slice(0, 50000))
-valid = MNIST(which_sets=('train',), subset=slice(50000, 60000))
-test = MNIST(which_sets=('test',))
-
-evaluate_lenet5(train, test, valid)
