@@ -25,6 +25,7 @@ make Anaconda the default Python version.
 Then, in a terminal:
 
 .. code-block:: bash
+
   $ conda update conda
 
 
@@ -39,6 +40,7 @@ These additional steps are required for Windows:
 - Install a C++ compiler and Python DLL. From a shell:
 
   .. code-block:: bash
+
     conda install mingw libpython
 
 
@@ -100,7 +102,7 @@ base directory:
 
 A new window or tab should open in your web browser. If it does not (or if you
 want to use it in a different browser), the previous command should mention a
-URL you can open, probably `http://localhost:8888/`__. From there, you can
+URL you can open, probably `<http://localhost:8888/>`__. From there, you can
 navigate to the `.ipynb` files.
 
 
