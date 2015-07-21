@@ -79,7 +79,7 @@ Then, we install the development version of Fuel from GitHub.
 .. code-block:: bash
 
   $ conda install pillow
-  $ pip install --upgrade pip install git+git://github.com/mila-udem/fuel.git
+  $ pip install --upgrade git+git://github.com/mila-udem/fuel.git --user
 
 
 Get and run these tutorials
