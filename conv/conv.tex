@@ -1,0 +1,116 @@
+\documentclass[utf8x,hyperref={pdfpagelabels=false}]{beamer}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[OT1]{fontenc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{amsmath}
+
+\usetheme{Malmoe}  % Now it's a beamer presentation with the lisa theme!        
+\usecolortheme{beaver}
+\setbeamertemplate{footline}[page number]
+\setbeamertemplate{navigation symbols}{}
+
+\title{Convolutions for neural networks}
+
+\author{%
+Arnaud Bergeron
+}
+\date{August 10, 2015}
+
+\begin{document}
+
+\begin{frame}[plain]
+ \titlepage
+\end{frame}
+
+\setcounter{page}{1}
+
+\section{Convolution}
+
+% Definitions
+\begin{frame}
+Some vocabulary:
+\begin{description}[feature maps]
+\item[feature map] analogue to layer (the activations, not the weights) for a neural network.
+\item[channel] a single 2D "image" which composes a feature map.
+\item[filter] weight (as in layer weights).
+\item[stack] ???
+\end{description}
+\end{frame}
+
+% Basic operation
+\begin{frame}
+The basic convolution operation (2D, discrete) for a single example
+\begin{overlayarea}{\textwidth}{5.6cm}
+\only<1>{
+\includegraphics[width=\textwidth]{Conv-basic}
+}
+\only<2->{
+\begin{displaymath}
+C_{bo}(i, j) = \sum^{k=0}_{l-1} \sum^{x = 0}_{m-1} \sum^{y = 0}_{n-1} A_{bk}(x + i - \frac{m}{2}, y + j - \frac{n}{2}) F_{ko}(x, y)
+\end{displaymath}
+\begin{itemize}
+\item<3-> $k$ is the input channel.
+\item<4-> $o$ is the output channel.
+\item<5-> $l$ is the number of input channels.
+\item<6-> $(m, n)$ is the size of the filters.
+\item<7-> $b$ is the batch.
+\end{itemize}
+}
+\end{overlayarea}
+where $A$ is the input, $F$ are the filters and $C$ is the convolution result.
+\end{frame}
+
+% Technical considerations
+\begin{frame}
+Memory layout for images: 'bc01'
+
+\begin{itemize}
+\item first dimension is the batch ('b')
+\item second dimension is the channel ('c')
+\item last two dimensions are the data ('0', '1')
+\end{itemize}
+
+\uncover<2->{
+Memory layout for filters: 'nc01'
+
+\begin{itemize}
+\item first dimension is the output channel ('n')
+\item second dimension is the input channel ('c')
+\item last two dimensions are the data ('0', '1')
+\end{itemize}}
+
+\ \\
+
+\uncover<3->{Some other packages may use different conventions.}
+\end{frame}
+
+\section{Pooling}
+
+\begin{frame}
+Basic pooling operation (max)
+\begin{overlayarea}{\textwidth}{5cm}
+\only<1>{
+\includegraphics[width=\textwidth]{Pool-max}
+}
+\only<2->{
+\begin{displaymath}
+O_k(i, j) = \max_{\substack{0 \leq x < m \\ 0 \leq y < n}} I_k(x + i - \frac{m}{2}, y + j - \frac{n}{2})
+\end{displaymath}
+\begin{itemize}
+\item<3-> $k$ is the channel.
+\item<4-> $(m, n)$ is the size of the filters.
+\end{itemize}
+}
+\end{overlayarea}
+\end{frame}
+
+\begin{frame}
+\begin{itemize}
+\item One thing to watch out for is the border handling
+\item Other types of pooling exist such as average pooling
+\end{itemize}
+\end{frame}
+
+\end{document}
