@@ -41,21 +41,99 @@ Some vocabulary:
 
 % Basic operation
 \begin{frame}
+The basic convolution operation (2D, discrete)
+\begin{overlayarea}{\textwidth}{5.6cm}
+\only<1>{
+\includegraphics[width=\textwidth]{Conv-single}
+}
+\only<2->{
+\begin{displaymath}
+C(i, j) = \sum^{x = 0}_{m-1} \sum^{y = 0}_{n-1} A(x + i, y + j) F(x, y)
+\end{displaymath}
+\begin{itemize}
+\item<3-> $(m, n)$ is the size of the filter.
+\end{itemize}
+}
+\end{overlayarea}
+where $A$ is the input, $F$ are the filters and $C$ is the convolution result.
+\end{frame}
+
+\begin{frame}
 The basic convolution operation (2D, discrete) for a single example
+\begin{overlayarea}{\textwidth}{5.6cm}
+\only<1>{
+\includegraphics[width=\textwidth]{Conv-mout}
+}
+\only<2->{
+\begin{displaymath}
+C_{o}(i, j) = \sum^{x = 0}_{m-1} \sum^{y = 0}_{n-1} A(x + i, y + j) F_{o}(x, y)
+\end{displaymath}
+\begin{itemize}
+\item $(m, n)$ is the size of the filters.
+\item<3-> $o$ is the output channel.
+\end{itemize}
+}
+\end{overlayarea}
+where $A$ is the input, $F$ are the filters and $C$ is the convolution result.
+\end{frame}
+
+\begin{frame}
+The basic convolution operation (2D, discrete) for a single example
+\begin{overlayarea}{\textwidth}{5.6cm}
+\only<1>{
+\includegraphics[width=\textwidth]{Conv-min}
+}
+\only<2->{
+\begin{displaymath}
+C(i, j) = \sum^{k=0}_l \sum^{x = 0}_{m-1} \sum^{y = 0}_{n-1} A_{k}(x + i, y + j) F_{k}(x, y)
+\end{displaymath}
+\begin{itemize}
+\item $(m, n)$ is the size of the filters.
+\item<3-> $k$ is the input channel.
+\item<4-> $l$ is the number of input channels.
+\end{itemize}
+}
+\end{overlayarea}
+where $A$ is the input, $F$ are the filters and $C$ is the convolution result.
+\end{frame}
+
+\begin{frame}
+The basic convolution operation (2D, discrete)
 \begin{overlayarea}{\textwidth}{5.6cm}
 \only<1>{
 \includegraphics[width=\textwidth]{Conv-basic}
 }
 \only<2->{
 \begin{displaymath}
-C_{bo}(i, j) = \sum^{k=0}_{l-1} \sum^{x = 0}_{m-1} \sum^{y = 0}_{n-1} A_{bk}(x + i - \frac{m}{2}, y + j - \frac{n}{2}) F_{ko}(x, y)
+C_{o}(i, j) = \sum^{k=0}_{l-1} \sum^{x = 0}_{m-1} \sum^{y = 0}_{n-1} A_{k}(x + i, y + j) F_{ko}(x, y)
 \end{displaymath}
 \begin{itemize}
-\item<3-> $k$ is the input channel.
-\item<4-> $o$ is the output channel.
-\item<5-> $l$ is the number of input channels.
-\item<6-> $(m, n)$ is the size of the filters.
-\item<7-> $b$ is the batch.
+\item $(m, n)$ is the size of the filters.
+\item $o$ is the output channel.
+\item $k$ is the input channel.
+\item $l$ is the number of input channels.
+\end{itemize}
+}
+\end{overlayarea}
+where $A$ is the input, $F$ are the filters and $C$ is the convolution result.
+\end{frame}
+
+\begin{frame}
+The basic convolution operation (2D, discrete)
+\begin{overlayarea}{\textwidth}{5.6cm}
+\only<1>{
+\includegraphics[width=\textwidth]{Conv-basic}
+}
+\only<2->{
+\begin{displaymath}
+C_{bo}(i, j) = \sum^{k=0}_{l-1} \sum^{x = 0}_{m-1} \sum^{y = 0}_{n-1} A_{bk}(x + i, y + j) F_{ko}(x, y)
+\end{displaymath}
+\begin{itemize}
+\item $(m, n)$ is the size of the filters.
+\item $o$ is the output channel.
+\item $k$ is the input channel.
+\item $l$ is the number of input channels.
+\item<3-> $b$ is the batch.
 \end{itemize}
 }
 \end{overlayarea}
@@ -89,14 +167,14 @@ Memory layout for filters: 'nc01'
 \section{Pooling}
 
 \begin{frame}
-Basic pooling operation (max)
+Basic pooling operation \only<2->{(max)}
 \begin{overlayarea}{\textwidth}{5cm}
 \only<1>{
 \includegraphics[width=\textwidth]{Pool-max}
 }
 \only<2->{
 \begin{displaymath}
-O_k(i, j) = \max_{\substack{0 \leq x < m \\ 0 \leq y < n}} I_k(x + i - \frac{m}{2}, y + j - \frac{n}{2})
+O_k(i, j) = \max_{\substack{0 \leq x < m \\ 0 \leq y < n}} I_k(x + i, y + j)
 \end{displaymath}
 \begin{itemize}
 \item<3-> $k$ is the channel.
