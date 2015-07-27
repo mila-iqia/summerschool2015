@@ -210,7 +210,7 @@ August 4th, Deep Learning Summer School 2015, Montréal
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Current status}
+\begin{frame}[fragile]{Current status}
   \begin{itemize}
     \item Mature: Theano has been developed and used since January 2008 (7 yrs old)
     \item Driven hundreds of research papers
@@ -224,7 +224,24 @@ August 4th, Deep Learning Summer School 2015, Montréal
   Theano: \url{deeplearning.net/software/theano/}
 
   Deep Learning Tutorials: \url{deeplearning.net/tutorial/}
-  \end{frame}
+\end{frame}
+
+\begin{frame}{Related projects}
+  Many libraries ar build on top of Theano (mostly machine learning)
+  \begin{itemize}
+  \item Pylearn2
+  \item Blocks
+  \item PyMC 3
+  \item PyAutoDiff
+  \item Lasagne
+  \item sklearn-theano
+  \item theano-rnn
+  \item Morb
+  \item Keras
+  \item \ldots
+  \end{itemize}
+\end{frame}
+
 
 \subsection{Basic Usage}
 \begin{frame}{Basic usage}
@@ -769,6 +786,7 @@ def numpy_dot(a, b):
     \item Easier way of writing C code for Ops
     \item Serialize GPU shared variables as ndarrays, for loading on a machine with no GPU
     \item Easier serialization/deserialization of optimized function graphs
+    \item Python 2 and 3 in a single code base
     %\item Faster implementation of convolution / cross-correlation on CPU and GPU
   \end{itemize}
 \end{frame}
