@@ -19,11 +19,7 @@
 %\usepackage{color}
 \def\imagetop#1{\vtop{\null\hbox{#1}}}
 
-
-
-\logo{\includegraphics[width=.8in]{mila.png}
-      \hfill
-      \includegraphics[width=.8in]{UdeM_logo.pdf}}
+%\logo{\includegraphics[width=.8in]{mila.png}}
 % Standard LaTeX stuff - note the optional abbreviated title being provided
 
 %% ALL that presentation slide are not used! We use a normal frame for that.
@@ -31,7 +27,7 @@
 \subtitle{A Fast Python Library for Modelling and Training}
 \author[LISA lab]{Pascal Lamblin \\
 Institut des algorithmes d'apprentissage de Montréal\\
-Montreal Institute for Learning algorithms\\
+Montreal Institute for Learning Algorithms\\
 Université de Montréal}
 
 \date{%
@@ -43,8 +39,12 @@ August 4th, Deep Learning Summer School 2015, Montréal
 
 \begin{document}
 
-
-\frame{\titlepage}
+\begin{frame}[plain]
+  \titlepage
+  \includegraphics[width=.8in]{mila.png}
+  \hfill
+  \includegraphics[width=1in]{UdeM_logo.pdf}
+\end{frame}
 
 \section{Overview}
 \begin{frame}
@@ -61,30 +61,132 @@ August 4th, Deep Learning Summer School 2015, Montréal
     \item Play with simple implementation of existing algorithms
     \item Ask questions and get help from developers and researchers
   \end{itemize}
+
+  \url{http://github.com/mila-udem/summerschool2015/}
 \end{frame}
 
+
 \begin{frame}{Tutorials Schedule}
-  \begin{itemize}
-    \item<1-> Tuesday, August 4th (day 2)
+
+  \uncover<1->{
       \begin{columns}
-        \begin{column}{.3\textwidth}
-          \includegraphics{lamblinp.jpg}
+        \begin{column}{.07\textwidth}
+          \includegraphics[width=\columnwidth]{lamblinp.jpg}\\
         \end{column}
-        \begin{column}
-      \begin{itemize}
-        \item Introduction to Theano
-        \item Theano exercises
-        \item Logistic regression with SGD
-      \end{itemize}
+        \begin{column}{.07\textwidth}
+        \end{column}
+        \begin{column}{.8\textwidth}
+          \scriptsize
+          Tuesday, August 4th (day 2)
+          \begin{itemize}
+            \item Introduction to Theano, Theano examples (Pascal Lamblin)
+          \end{itemize}
+          \vspace{2mm}
         \end{column}
       \end{columns}
-  \end{itemize}
+    }
+
+    \uncover<2->{
+      \begin{columns}
+        \begin{column}{.14\textwidth}
+          \includegraphics[width=\columnwidth]{nvidia-logo.png}\\
+        \end{column}
+        \begin{column}{.01\textwidth}
+        \end{column}
+        \begin{column}{.8\textwidth}
+          \scriptsize
+          Wednesday, August 5th (day 3)
+          \begin{itemize}
+            \item GPU programming (NVIDIA)
+          \end{itemize}
+          \vspace{2mm}
+        \end{column}
+      \end{columns}
+    }
+
+    \uncover<3->{
+      \begin{columns}
+        \begin{column}{.07\textwidth}
+          \includegraphics[width=\columnwidth]{dumouliv.jpg}\\
+        \end{column}
+        \begin{column}{.07\textwidth}
+          \includegraphics[width=\columnwidth]{lamblinp.jpg}\\
+        \end{column}
+        \begin{column}{.8\textwidth}
+          \scriptsize
+          Friday, August 7th (day 5)
+          \begin{itemize}
+            \item Fuel: a library for machine learning datasets (Vincent Dumoulin)
+            \item Deep neural networks in Theano (Pascal Lamblin)
+          \end{itemize}
+          \vspace{2mm}
+        \end{column}
+      \end{columns}
+    }
+
+    \uncover<4->{
+      \begin{columns}
+        \begin{column}{.07\textwidth}
+          \includegraphics[width=\columnwidth]{fred_lisa2.jpg}
+        \end{column}
+        \begin{column}{.07\textwidth}
+          \includegraphics[width=\columnwidth]{abergeron.png}
+        \end{column}
+        \begin{column}{.8\textwidth}
+          \scriptsize
+          Monday, August 10th (day 8)
+          \begin{itemize}
+            \item Debugging with Theano (Frédéric Bastien)
+            \item Convolutional networks (Arnaud Bergeron)
+          \end{itemize}
+          \vspace{2mm}
+        \end{column}
+      \end{columns}
+    }
+
+    \uncover<5->{
+      \begin{columns}
+        \begin{column}{.07\textwidth}
+          \includegraphics[width=\columnwidth]{carriepl.jpg}
+        \end{column}
+        \begin{column}{.07\textwidth}
+          \includegraphics[width=\columnwidth]{philemon_brakel.jpg}
+        \end{column}
+        \begin{column}{.8\textwidth}
+          \scriptsize
+          Tuesday, August 11th (day 9)
+          \begin{itemize}
+            \item Scan: Loops in Theano (Pierre Luc Carrier)
+            \item Recurrent neural networks (Philémon Brakel)
+          \end{itemize}
+          \vspace{2mm}
+        \end{column}
+      \end{columns}
+    }
+
+    \uncover<6->{
+      \begin{columns}
+        \begin{column}{.07\textwidth}
+        \end{column}
+        \begin{column}{.07\textwidth}
+        \end{column}
+        \begin{column}{.8\textwidth}
+          \scriptsize
+          Wednesday, August 12th (day 10)
+          \begin{itemize}
+            \item Overflow session
+          \end{itemize}
+          \vspace{2mm}
+        \end{column}
+      \end{columns}
+    }
+
 \end{frame}
 
 \subsection{Motivation}
 %TODO: TOC, current section
 
-\begin{frame}{Main objectives}
+\begin{frame}{Theano vision}
 
   Mathematical symbolic expression compiler
 
@@ -110,14 +212,14 @@ August 4th, Deep Learning Summer School 2015, Montréal
 
 \begin{frame}{Current status}
   \begin{itemize}
-    \item Mature: Theano has been developed and used since January 2008 (6.5 yrs old)
-    \item Driven over 100 research papers
+    \item Mature: Theano has been developed and used since January 2008 (7 yrs old)
+    \item Driven hundreds of research papers
     \item Good user documentation
     \item Active mailing list with participants worldwide
-    \item Core technology for a few Silicon-Valley start-ups
+    \item Core technology for Silicon Valley start-ups
     \item Many contributors from different places
-    \item Used to teach many university classes
-    \item Has been used for research at Google and Yahoo.
+    \item Used to teach university classes
+    \item Has been used for research at large companies
   \end{itemize}
   Theano: \url{deeplearning.net/software/theano/}
 
@@ -264,7 +366,7 @@ i(x_val, W_val, b_val)
     \item All Theano variables have a type
     \item Different categories of types. Most used:
       \begin{itemize}
-        \item TensorType for Numpy ndarrays
+        \item TensorType for NumPy ndarrays
         \item CudaNdarrayType for CUDA arrays
         \item Sparse for scipy.sparse matrices
       \end{itemize}
@@ -281,12 +383,12 @@ i(x_val, W_val, b_val)
   \end{itemize}
   \begin{minted}{python}
 r = T.row('r')
-print r.broadcastable  # (True, False)
+print(r.broadcastable)  # (True, False)
 c = T.col('c')
-print c.broadcastable  # (False, True)
+print(c.broadcastable)  # (False, True)
 
 f = theano.function([r, c], r + c)
-print f([[1, 2, 3]], [[.1], [.2]])
+print(f([[1, 2, 3]], [[.1], [.2]]))
   \end{minted}
 \end{frame}
 
@@ -337,8 +439,8 @@ print f([[1, 2, 3]], [[.1], [.2]])
   \begin{minted}{python}
 x_ = T.vector('x_')
 x_n = (x_ - x_.mean()) / x_.std()
-f_n = theano.function([x_], dot, givens={x: x_n})
-f_n(x_val)
+f_n = theano.function([x_, W], dot, givens={x: x_n})
+f_n(x_val, W_val)
 # -> array([ 1.90651511,  0.60431744, -0.64253361])
   \end{minted}
 \end{frame}
@@ -346,9 +448,11 @@ f_n(x_val)
 \begin{frame}[fragile]{Cloning with replacement}
   Useful when building the expression graph
   \begin{minted}{python}
-dot_n, out_n = theano.clone([dot, out], replace={x: (x - x.mean()) / x.std()})
-f_n = theano.function([x], dot_n)
-f_n(x_val)
+dot_n, out_n = theano.clone(
+    [dot, out],
+    replace={x: (x - x.mean()) / x.std()})
+f_n = theano.function([x, W], dot_n)
+f_n(x_val, W_val)
 # -> array([ 1.90651511,  0.60431744, -0.64253361])
   \end{minted}
 \end{frame}
@@ -390,8 +494,8 @@ dC_db = theano.grad(C, b)
     \item The symbolic gradients can be used to build a Theano function
       \begin{minted}{python}
 cost_and_grads = theano.function([x, W, b, y], [C, dC_dW, dC_db])
-y_val = np.random.uniform(3)
-print cost_and_grads(x_val, W_val, b_val, y_val)
+y_val = np.random.uniform(size=3)
+print(cost_and_grads(x_val, W_val, b_val, y_val))
       \end{minted}
     \item They can also be used to build new expressions
       \begin{minted}{python}
@@ -443,9 +547,9 @@ dot = T.dot(x, W)
 out = T.nnet.sigmoid(dot + b)
 f = theano.function([x], dot)  # W is an implicit input
 g = theano.function([x], out)  # W and b are implicit inputs
-print f(x_val)
+print(f(x_val))
 # [ 1.79048354  0.03158954 -0.26423186]
-print g(x_val)
+print(g(x_val))
 # [ 0.9421594   0.73722395  0.67606977]
   \end{minted}
   \begin{itemize}
@@ -475,7 +579,7 @@ cost_and_perform_updates = theano.function(
 \end{frame}
 
 \begin{frame}
-  \includegraphics[width=\textwidth]{pydotprint_cost_and_upd.pdf}
+  \includegraphics[width=\textwidth]{pydotprint_cost_and_perform_updates.pdf}
 \end{frame}
 
 
@@ -600,48 +704,22 @@ floatX = float32
 \begin{frame}
   \tableofcontents[currentsection]
 \end{frame}
+
 \subsection{Looping: the {\tt scan} operation}
 \begin{frame}[fragile]{Overview}
   Symbolic looping
   \begin{itemize}
     \item Can perform map, reduce, reduce and accumulate, \ldots
-    \item Can access outputs at previous time-step, or further
+    \item Can access outputs at previous time-step, or further back
     \item Symbolic number of steps
     \item Symbolic stopping condition (behaves as \verb|do ... while|)
     \item Actually embeds a small Theano function
     \item Gradient through \verb|scan| implements backprop through time
     \item Can be transfered to GPU
   \end{itemize}
+  For more, come and see Pierre Luc's presentation next Tuesday (Aug. 11th, day 9)
 \end{frame}
 
-\begin{frame}[fragile]{Scan Examples: Loop with accumulation}
-\footnotesize
-  \begin{minted}{python}
-k = T.iscalar("k")
-A = T.vector("A")
-
-# Symbolic description of the result
-result, updates = theano.scan(fn=lambda prior_result, A: prior_result * A,
-                              outputs_info=T.ones_like(A),
-                              non_sequences=A,
-                              n_steps=k)
-
-# We only care about A**k, but scan has provided us with A**1 through A**k.
-# Discard the values that we don't care about. Scan is smart enough to
-# notice this and not waste memory saving them.
-final_result = result[-1]
-
-# compiled function that returns A**k
-power = theano.function(inputs=[A, k], outputs=final_result, updates=updates)
-
-print power(range(10), 2)
-# [  0.   1.   4.   9.  16.  25.  36.  49.  64.  81.]
-print power(range(10), 4)
-# [  0.00000000e+00   1.00000000e+00   1.60000000e+01   8.10000000e+01
-#    2.56000000e+02   6.25000000e+02   1.29600000e+03   2.40100000e+03
-#    4.09600000e+03   6.56100000e+03]
-  \end{minted}
-\end{frame}
 
 \subsection{Extending Theano}
 
@@ -669,7 +747,7 @@ def numpy_dot(a, b):
     \item To define the gradient, have to actually define a class deriving from \verb|Op|,
       and define the \verb|grad| method.
   \end{itemize}
-  3D convolution using FFT on GPU was recently implemented that way.
+  3D convolution using FFT on GPU was implemented that way last year
 \end{frame}
 
 \begin{frame}[fragile]{The hard way: C code}
@@ -680,7 +758,19 @@ def numpy_dot(a, b):
     \item No overhead of Python function calls, or from the interpreter (if garbage
       collection is disabled)
   \end{itemize}
-  New contributors recently wrapped Caffe to perform convolutions using GEMM on GPU with it.
+  New contributors wrote Caffe-style convolutions, using GEMM, on CPU and GPU that way.
+\end{frame}
+
+\subsection{Recent Features}
+\begin{frame}{Features recently added to Theano}
+  \begin{itemize}
+    \item Integration of CuDNN for 2D convolutions and pooling
+    \item Execution of un-optimized graph on GPU (quicker compile time)
+    \item Easier way of writing C code for Ops
+    \item Serialize GPU shared variables as ndarrays, for loading on a machine with no GPU
+    \item Easier serialization/deserialization of optimized function graphs
+    %\item Faster implementation of convolution / cross-correlation on CPU and GPU
+  \end{itemize}
 \end{frame}
 
 \subsection{Features Coming Soon}
@@ -688,11 +778,11 @@ def numpy_dot(a, b):
   \begin{itemize}
     \item New GPU backend, with arrays of all dtypes, for CUDA and OpenCL
     \item Support for multiple GPUs in the same function
-    \item Execution of un-optimized graph on GPU (quicker compile time)
-    \item Serialization/deserialization of optimized function graphs
-    \item Easier way of writing C code for Ops
-    \item Serialize GPU shared variables as ndarrays, for loading on a machine with no GPU
-    \item Faster implementation of convolution / cross-correlation on CPU and GPU
+    \item GSoC project: manipulate functions without re-optimizing them
+    \item GSoC project: faster optimization phase
+    \item GSoC project: interactive visualization
+    %\item Faster implementation of convolution / cross-correlation on CPU and GPU
+    %\item Better interface for convolution and deconvolution
   \end{itemize}
 \end{frame}
 
@@ -701,18 +791,47 @@ def numpy_dot(a, b):
 
 \begin{frame}{Acknowledgements}
   \begin{itemize}
-    \item All people working or having worked at the LISA lab, especially Theano contributors
+    \item All people working or having worked at the MILA (previously LISA), especially Theano contributors
       \begin{itemize}
-        \item James Bergstra, Olivier Breuleux, Frédéric Bastien, Yoshua Bengio, Arnaud Bergeron, Razvan Pascanu, David Warde-Farley, Ian Goodfellow, Joseph Turian, and many more
+        \item James Bergstra, Olivier Breuleux, Frédéric Bastien,
+          Yoshua Bengio, Arnaud Bergeron, Razvan Pascanu, Pierre Luc
+          Carrier, David Warde-Farley, Ian Goodfellow, Joseph Turian, and
+          many more
       \end{itemize}
     \item Compute Canada, RQCHP, NSERC, and Canada Research Chairs for providing funding or access to compute resources.
-    \item Organizers and participants to TCMM 2014
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Thanks for your attention}
-  Questions, comments, requests?
+\begin{frame}[fragile]{Thanks for your attention}
+  \uncover<1->{
+    Questions, comments, requests?
+  }
+    \vspace{1cm}
+
+  \uncover<2->{
+    \url{http://github.com/mila-udem/summerschool2015/}
+    \begin{itemize}
+      \item Slides: {\tt intro\_theano/intro\_theano.pdf}
+      \item Notebook with the code examples: {\tt intro\_theano/intro\_theano.ipynb}
+    \end{itemize}
+  }
 \end{frame}
 
+\begin{frame}[fragile]{Exercises}
+  Tutorial repository on GitHub:\\
+  \url{http://github.com/mila-udem/summerschool2015/}
 
+  \begin{itemize}
+    \item Install the dependencies
+    \item Clone the repository
+      \begin{minted}[fontfamily=tt]{bash}
+git clone https://github.com/mila-udem/summerschool2015.git
+      \end{minted}
+    \item Launch the notebook
+      \begin{minted}[fontfamily=tt]{bash}
+ipython notebook summerschool2015
+      \end{minted}
+    \item Navigate to {\tt intro\_theano}, then {\tt exercises.ipynb}
+  \end{itemize}
+\end{frame}
 \end{document}
