@@ -377,6 +377,30 @@ i(x_val, W_val, b_val)
 \begin{frame}
   \tableofcontents[currentsection]
 \end{frame}
+
+\subsection{Graph structure}
+\begin{frame}[fragile]{Graph structure}
+  The graph that represents mathematical operations is {\bf bipartite},
+  and has two sorts of nodes:
+  \begin{itemize}
+    \item \verb|Variable| nodes, that represent {\em data}
+    \item \verb|Apply| nodes, that represent the application of
+      {\em mathematical operations}
+  \end{itemize}
+  In practice:
+  \begin{itemize}
+    \item Variables are used for the graph inputs and outputs, and intermediate values
+    \item Variables will hold data during the function execution phase
+    \item An Apply node has inputs and outputs, which are Variables
+    \item An Apply node represents the specific application of an Op on these input Variables
+    \item The same Variable can be used as inputs by several Apply nodes
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{\tt pydotprint(f, compact=False)}
+    \includegraphics[width=\textwidth]{pydotprint_f_notcompact.pdf}
+\end{frame}
+
 \subsection{Strong typing}
 \begin{frame}{Strong typing}
   \begin{itemize}
