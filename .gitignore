@@ -2,6 +2,7 @@ dataset.hdf5
 .ipynb_checkpoints/
 fuel_data
 *.pyc
+*~
 
 # Output of pdflatex
 *.aux
