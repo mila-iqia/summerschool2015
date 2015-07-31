@@ -27,7 +27,27 @@ Then, in a terminal:
 .. code-block:: bash
 
   $ conda update conda
+  $ conda install pydot  # An optional Theano dependency used in the tutorial
 
+
+Additional step to display the graphics
++++++++++++++++++++++++++++++++++++++++
+
+Under Ubuntu/Debian:
+
+  $ sudo apt-get install graphviz
+
+Under Fedora, Cent OS, Red Hat Enterprise:
+
+  $ sudo yum install graphviz
+
+Under Mac:
+
+  Download graphviz from: http://www.graphviz.org/Download_macos.php
+
+Under Windows:
+
+  Download graphvix from: http://www.graphviz.org/Download_windows.php
 
 Additional steps for Windows
 ++++++++++++++++++++++++++++
