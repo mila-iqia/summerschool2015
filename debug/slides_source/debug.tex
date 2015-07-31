@@ -18,9 +18,10 @@
 Frédéric Bastien \newline
 \newline
 \newline
-Institut des algorithmes d'apprentissage de Montréal\\
-Montreal Institute for Learning Algorithms\\
-Université de Montréal}
+Institut des algorithmes d'apprentissage de Montréal \newline
+Montreal Institute for Learning Algorithms \newline
+Université de Montréal
+}
 
 \date{August 10th, Deep Learning Summer School 2015, Montréal}
 
@@ -45,21 +46,24 @@ Université de Montréal}
 \end{frame}
 
 \subsection{Debugging}
-\begin{frame}{Debugging}
+\begin{frame}
+  \frametitle{Debugging}
   \begin{itemize}
   \item Error message
-  \item DEBUG\_MODE
-  \item theano.printing.debugprint
-breakpoint op
-nanguard
-printop
-test_value
-name AssertOp
-profile=True? exception_verbosity for missing memory.
-%%on_opt_err, optimizer_verbose=True
+  \item theano.printing.{debugprint,pydotprint}
+  \item DebugMode
+  \item Breakpoint op
+  \item NanGuard
+  \item PrintOp
+  \item test\_value
+  \item AssertOp
+%  \item profile\=True? exception_verbosity for missing memory.
+  %%\item on_opt_err, optimizer_verbose=True
+%warn_float64=True
   \end{itemize}
 \end{frame}
 
+\subsection{Error message}
 \begin{frame}[fragile]
   \frametitle{Error message: code}
 \lstset{language=Python,
@@ -156,96 +160,30 @@ Backtrace when the node is created:
 \end{lstlisting}
 \end{frame}
 
-
-\begin{frame}[fragile]
-  \frametitle{debugprint}
-
-\lstset{language=Python,
-        commentstyle=\itshape\color{blue},
-        stringstyle=\color{violet},
-        }
-\begin{lstlisting}
->>> from theano.printing import debugprint
->>> debugprint(a)
-Elemwise{mul,no_inplace} [@A] ''
- |TensorConstant{2.0} [@B]
- |Elemwise{add,no_inplace} [@C] 'z'
-   |<TensorType(float64, scalar)> [@D]
-   |<TensorType(float64, scalar)> [@E]
-\end{lstlisting}
+\subsection{graph printing}
+\begin{frame}
+  \frametitle{debugprint and pydotprint}
+Already show on the first presentation.
 \end{frame}
 
-%% \begin{frame}{Pylearn2}
+\subsection{DebugMode}
+\begin{frame}[fragile]
+  \frametitle{DebugMode}
+    Checks and double-checks everything, extremely slow
+\begin{itemize}
+\item Compare Python, C and GPU implementation.
+\item Compare before and after each optimization.
+\item By default, raise an error on NaN.
+\item Sensitive: so frequently reported errors are ok.
+\end{itemize}
+\end{frame}
 
-%%   Machine Learning library aimed at researchers
-
-%%   \begin{itemize}
-%%     \item Built on top of Theano, for fast execution and use of GPU
-%%     \item Easy to try variants of implemented algorithms, and to extend them (using Theano)
-%%     \item Very modular, each component of the library can be used in isolation
-%%     \item Experiments can be specified through a YAML config file, or by a Python script
-%%     \item Scripts for visualizing weights, plot monitored values
-%%   \end{itemize}
-%% \end{frame}
-
-
-%% \begin{frame}{libgpuarray}
-%%   Goal: A common GPU $n$-dimensional array that can be reused by all projects, support for both CUDA and OpenCL.
-%%   \newline \newline
-%%   Motivation:
-%%   \begin{itemize}
-%%   \item Currently there are at least 6 different GPU arrays in Python
-%%     \begin{itemize}
-%%     \item CudaNdarray (Theano), GPUArray (pycuda), CUDAMatrix (cudamat), GPUArray (pyopencl), Clyther, Copperhead, ...
-%%     \item There are even more if we include other languages.
-%%     \end{itemize}
-%%   \item They are incompatible
-%%     \begin{itemize}
-%%     \item None have the same properties and interface
-%%     \end{itemize}
-%%   \item All of them implement a subset of numpy.ndarray properties
-%%   \item This is the new GPU backend on Theano
-%%   \end{itemize}
-%% \end{frame}
+\subsection{Breakpoint}
+\begin{frame}
+  \frametitle{Breakpoint Op}
 
 
-%% \begin{frame}{Project status?}
-%%   \begin{itemize}
-%%   \item Usable directly, but not all implementation available.
-%%   \item Multiple GPUs works.
-%%   \item Is the next GPU array container for Theano and is working.
-%%     \begin{itemize}
-%%     \item Not all Theano implementations available now.
-%%     \item OpenCL misses more implementations.
-%%     \item Multiple GPUs: supported in libgpuarray
-%%     \item Multiple GPUs: close to get integrated in Theano.
-%%     \end{itemize}
-%%   \item Web site: \url{http://deeplearning.net/software/libgpuarray/}
-%%   \end{itemize}
-%% \end{frame}
-
-%% \section{libgpuarray}
-%% \begin{frame}
-%%   \tableofcontents[currentsection]
-%% \end{frame}
-%% %TODO, make much shorter
-%% \begin{frame}{libgpuarray: Design Goals}
-%%   \begin{itemize}
-%%   \item Have the base object in C to allow collaboration with more projects.
-%%     \begin{itemize}
-%%     \item We want people from C, C++, ruby, R, \ldots all use the same base GPU ndarray.
-%%     \end{itemize}
-%%   \item Be compatible with CUDA and OpenCL.
-%%   \item Not too simple, (don’t support just matrix).
-%%   \item Support all dtype.
-%%   \item Allow strided views.
-%%   \item But still easy to develop new code that support only a few memory layout.
-%%     \begin{itemize}
-%%     \item This ease the development of new code.
-%%     \end{itemize}
-%%   \end{itemize}
-%% \end{frame}
-
+\end{frame}
 
 \begin{frame}{Connection instructions}
 \begin{itemize}
@@ -257,7 +195,6 @@ Elemwise{mul,no_inplace} [@A] ''
 \item Please ask Lab Assistants for help!
 \end{itemize}
 \end{frame}
-
 
 \begin{frame}{Questions, Acknowledgments}
 \Huge
