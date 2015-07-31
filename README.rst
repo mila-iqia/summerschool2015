@@ -27,11 +27,27 @@ Then, in a terminal:
 .. code-block:: bash
 
   $ conda update conda
-  $ conda install pydot  # An optional Theano dependency used in the tutorial
 
 
-Additional step to display the graphics
-+++++++++++++++++++++++++++++++++++++++
+Additional steps for Windows
+++++++++++++++++++++++++++++
+
+These additional steps are required for Windows:
+
+- Download Git_, and execute the installer. This will be necessary to
+  get the latest version of Theano and Fuel.
+
+- Install a C++ compiler and Python DLL. From a shell:
+
+  .. code-block:: bash
+
+    conda install mingw libpython
+
+
+Opt: Additional step to display the graphics
+++++++++++++++++++++++++++++++++++++++++++++
+
+  $ conda install pydot
 
 Under Ubuntu/Debian:
 
@@ -48,21 +64,6 @@ Under Mac:
 Under Windows:
 
   Download graphvix from: http://www.graphviz.org/Download_windows.php
-
-Additional steps for Windows
-++++++++++++++++++++++++++++
-
-These additional steps are required for Windows:
-
-- Download Git_, and execute the installer. This will be necessary to
-  get the latest version of Theano and Fuel.
-
-- Install a C++ compiler and Python DLL. From a shell:
-
-  .. code-block:: bash
-
-    conda install mingw libpython
-
 
 Optional: MKL Blas
 ++++++++++++++++++
