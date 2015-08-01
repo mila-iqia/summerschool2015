@@ -168,7 +168,7 @@ Backtrace when the node is created:
   \frametitle{Breakpoint Op: optimization}
   Theano optimization don't know it.
 \begin{itemize}
-  \item Could Slow down computation, but not too much.
+  \item Could slow down computation, but not too much.
   \item Could disable stability optimization
   \item It is moved to the GPU (it do not force transfer)
 \end{itemize}
@@ -220,19 +220,99 @@ print fct([0, 0], [10, 5]) # Will activate the breakpoint
 \end{frame}
 
 \subsection{PrintOp}
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{PrintOp}
+Allow to print during execution
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        basicstyle=\footnotesize,
+        xleftmargin=-1em
+        }
+\begin{lstlisting}
+import theano
+x = theano.tensor.vector()
+o = theano.printing.Print(``a message'')(x)
+f = theano.function([x], o)
+d = f([3, 4])
+a message  __str__ = [ 3.  4.]
+\end{lstlisting}
 \end{frame}
 
 
 \subsection{Nan}
 \begin{frame}
+  \frametitle{Most Frequent NaN Causes}
+\begin{itemize}
+\item Hyper parameter (ex: learning rate)
+\item Initialization of weight vectors
+\item Numerical Stability
+\item Algorithm Related
+\end{itemize}
+Run in NanGuardMode, DebugMode, or MonitorMode
+\end{frame}
+
+\begin{frame}[fragile]
   \frametitle{NanGuardMode}
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        basicstyle=\footnotesize,
+        xleftmargin=-1em
+        }
+Can check:
+\begin{itemize}
+\item Nan
+\item Inf
+\item Big value (greater than 1e10)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+  \frametitle{NanGuardMode: example}
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        basicstyle=\footnotesize,
+        xleftmargin=-1em
+        }
+\begin{lstlisting}
+x = T.dmatrix()
+w = theano.shared(numpy.random.randn(5, 7))
+y = T.dot(x, w)
+mode=NanGuardMode(nan_is_error=True,
+                  inf_is_error=True,
+                  big_is_error=True)
+fun = theano.function(
+    [x], y, mode=mode)
+infa = numpy.tile(
+    (numpy.asarray(100.) ** 1000000), (3, 5))
+fun(infa)
+\end{lstlisting}
 \end{frame}
 
 \subsection{Test Value}
-\begin{frame}
-  \frametitle{test value}
+\begin{frame}[fragile]
+  \frametitle{Test Value}
+Set a value to symbolic variable and use it when building the graph.
+
+ \vspace{1cm}
+
+\lstset{language=Python,
+        commentstyle=\itshape\color{blue},
+        stringstyle=\color{violet},
+        basicstyle=\footnotesize,
+        xleftmargin=-1em
+        }
+\begin{lstlisting}
+# Can also be 'off', 'ignore', 'raise', 'pdb'
+theano.config.compute_test_value = 'warn'
+# input which will be of shape (5, 10)
+x  = T.matrix('x')
+# provide Theano with a default test-value
+x.tag.test_value = numpy.random.rand(5, 10)
+\end{lstlisting}
+
 \end{frame}
 
 \subsection{Others}
@@ -251,16 +331,24 @@ print fct([0, 0], [10, 5]) # Will activate the breakpoint
   \end{itemize}
 \end{frame}
 
-\section{Python Debugger}
+\section{Python Debugger (PDB)}
+\subsection{Introduction}
 \begin{frame}
+  \frametitle{Introduction}
   \begin{itemize}
-  \item pdb, is the python debugger
+  \item PDB is similar to GDB
+  \item 'n': next, 'c': continue, 'l': list, 'p var': print, 's': step, ...
+  \item It only check the first letter, don't forget the 'p'!
   \end{itemize}
+\end{frame}
 
-  Can be combined with those Theano flags to disable Theano c code:
+\subsection{Introduction}
+\begin{frame}
+  \frametitle{Theano + PDB}
+  Can be combined with Theano flags to disable Theano c code:
   \begin{itemize}
-    \item mode=FAST\_COMPILE \# Disable most of Theano opt + c code.
-    \item linker=py \# Disable Theano c code.
+    \item mode=FAST\_COMPILE \# Disable most of opt + c code.
+    \item linker=py \# Disable c code.
   \end{itemize}
 \end{frame}
 
