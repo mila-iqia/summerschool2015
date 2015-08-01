@@ -36,7 +36,8 @@ Université de Montréal
  \includegraphics[width=.8in]{UdeM_logo}
 \end{frame}
 
-\begin{frame}{Slides}
+\section{Introduction}
+\begin{frame}{Slides and Exercices}
   \url{http://github.com/mila-udem/summerschool2015/debug}
 \end{frame}
 
@@ -45,23 +46,6 @@ Université de Montréal
   \tableofcontents[currentsection]
 \end{frame}
 
-\subsection{Debugging}
-\begin{frame}
-  \frametitle{Debugging}
-  \begin{itemize}
-  \item Error message
-  \item theano.printing.{debugprint,pydotprint}
-  \item DebugMode
-  \item Breakpoint op
-  \item NanGuard
-  \item PrintOp
-  \item test\_value
-  \item AssertOp
-%  \item profile\=True? exception_verbosity for missing memory.
-  %%\item on_opt_err, optimizer_verbose=True
-%warn_float64=True
-  \end{itemize}
-\end{frame}
 
 \subsection{Error message}
 \begin{frame}[fragile]
@@ -77,7 +61,7 @@ import theano.tensor as T
 x = T.vector()
 y = T.vector()
 z = x + x
-z = z + y
+z = z * y
 f = theano.function([x, y], z)
 f(np.ones((2,)), np.ones((3,)))
 \end{lstlisting}
@@ -95,17 +79,18 @@ f(np.ones((2,)), np.ones((3,)))
 Traceback (most recent call last):
 [...]
 ValueError: Input dimension mis-match.
-    (input[0].shape[0] = 3, input[1].shape[0] = 2)
+    (input[0].shape[0] = 2, input[1].shape[0] = 3)
 Apply node that caused the error:
-   Elemwise{add,no_inplace}(<TensorType(float64, vector)>,
-                            <TensorType(float64, vector)>,
-                            <TensorType(float64, vector)>)
+     Elemwise{Composite{((i0 + i0) * i1)}}(
+         <TensorType(float64, vector)>,
+         <TensorType(float64, vector)>)
+Toposort index: 0
 Inputs types: [TensorType(float64, vector),
-               TensorType(float64, vector),
                TensorType(float64, vector)]
-Inputs shapes: [(3,), (2,), (2,)]
-Inputs strides: [(8,), (8,), (8,)]
-Inputs scalar values: ['not scalar', 'not scalar', 'not scalar']
+Inputs shapes: [(2,), (3,)]
+Inputs strides: [(8,), (8,)]
+Inputs values: [array([ 1.,  1.]), array([ 1.,  1.,  1.])]
+Outputs clients: [['output']]
 \end{lstlisting}
 \end{frame}
 
@@ -155,15 +140,9 @@ Traceback (most recent call last):
 \begin{lstlisting}
 Backtrace when the node is created:
   File "test.py", line 7, in <module>
-    z = z + y
+    z = z * y
 
 \end{lstlisting}
-\end{frame}
-
-\subsection{graph printing}
-\begin{frame}
-  \frametitle{debugprint and pydotprint}
-Already show on the first presentation.
 \end{frame}
 
 \subsection{DebugMode}
@@ -171,7 +150,7 @@ Already show on the first presentation.
   \frametitle{DebugMode}
     Checks and double-checks everything, extremely slow
 \begin{itemize}
-\item Compare Python, C and GPU implementation.
+\item Compare Python, C and GPU implementations.
 \item Compare before and after each optimization.
 \item By default, raise an error on NaN.
 \item Sensitive: so frequently reported errors are ok.
@@ -189,8 +168,9 @@ Already show on the first presentation.
   \frametitle{Breakpoint Op: optimization}
   Theano optimization don't know it.
 \begin{itemize}
-  \item Could Slow down computation
+  \item Could Slow down computation, but not too much.
   \item Could disable stability optimization
+  \item It is moved to the GPU (it do not force transfer)
 \end{itemize}
 \end{frame}
 
@@ -237,6 +217,51 @@ print fct([10, 0], [10, 5]) # Will NOT activate the breakpoint
 print fct([0, 0], [10, 5]) # Will activate the breakpoint
 \end{lstlisting}
 
+\end{frame}
+
+\subsection{PrintOp}
+\begin{frame}
+  \frametitle{PrintOp}
+\end{frame}
+
+
+\subsection{Nan}
+\begin{frame}
+  \frametitle{NanGuardMode}
+\end{frame}
+
+\subsection{Test Value}
+\begin{frame}
+  \frametitle{test value}
+\end{frame}
+
+\subsection{Others}
+\begin{frame}
+  \frametitle{Others}
+  \begin{itemize}
+  \item theano.tensor.opt.AssertOp
+  \item theano.printig.{debugprint,pydotprint}
+
+
+  \item Flag: profile=True
+  \item Flag: exception\_verbosity=True (ex: for Memory Error)
+  \item Flag: on\_opt\_err=True
+  \item Flag: optimizer\_verbose=True
+  \item Flag: warn\_float64=True
+  \end{itemize}
+\end{frame}
+
+\section{Python Debugger}
+\begin{frame}
+  \begin{itemize}
+  \item pdb, is the python debugger
+  \end{itemize}
+
+  Can be combined with those Theano flags to disable Theano c code:
+  \begin{itemize}
+    \item mode=FAST\_COMPILE \# Disable most of Theano opt + c code.
+    \item linker=py \# Disable Theano c code.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Connection instructions}
