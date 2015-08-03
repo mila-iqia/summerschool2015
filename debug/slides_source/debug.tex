@@ -175,6 +175,36 @@ Backtrace when the node is created:
 \end{itemize}
 \end{frame}
 
+\subsection{Python Debugger (PDB)}
+\begin{frame}
+  \frametitle{Introduction}
+  \begin{itemize}
+  \item PDB is similar to GDB
+  \item 'n': next, 'c': continue, 'l': list, 'p var': print, 's': step, ...
+  \item It only check the first letter, don't forget the 'p'!
+  \end{itemize}
+  To get into PDB:
+  \begin{itemize}
+  \item import pdb;pdb.set\_trace()
+  \item python -m pdb script.py
+  \item Some Theano flags.
+  \end{itemize}
+\end{frame}
+
+\subsection{Theano}
+\begin{frame}
+  \frametitle{Theano + PDB}
+  Can be used with Theano:
+  \begin{itemize}
+    \item mode=FAST\_COMPILE \# Disable most of opt + c code.
+    \item linker=py \# Disable c code.
+    \item PdbBreakpoint \# Breakpoing during execution.
+    \item Some Theano flags have a pdb value (ex: warn\_float64)
+  \end{itemize}
+\end{frame}
+
+
+
 \subsection{Breakpoint}
 \begin{frame}[fragile]
   \frametitle{Breakpoint Op} Identity-like op with the side effect of
@@ -382,29 +412,6 @@ x + y # warn about the shape error
     \begin{itemize}
     \item Make Theano print each optimization it apply
     \end{itemize}
-  \end{itemize}
-\end{frame}
-
-\section{Python Debugger (PDB)}
-\subsection{Introduction}
-\begin{frame}
-  \frametitle{Introduction}
-  \begin{itemize}
-  \item PDB is similar to GDB
-  \item 'n': next, 'c': continue, 'l': list, 'p var': print, 's': step, ...
-  \item It only check the first letter, don't forget the 'p'!
-  \end{itemize}
-\end{frame}
-
-\subsection{Theano}
-\begin{frame}
-  \frametitle{Theano + PDB}
-  Can be used with Theano:
-  \begin{itemize}
-    \item mode=FAST\_COMPILE \# Disable most of opt + c code.
-    \item linker=py \# Disable c code.
-    \item PdbBreakpoint \# Breakpoing during execution.
-    \item Some Theano flags have a pdb value (ex: warn\_float64)
   \end{itemize}
 \end{frame}
 
