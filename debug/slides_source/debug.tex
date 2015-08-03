@@ -47,6 +47,24 @@ Université de Montréal
 \end{frame}
 
 
+\begin{frame}[fragile]
+  \frametitle{Error message}
+  \begin{itemize}
+  \item Very important
+  \item Much information in them
+  \item Take the time to read them
+  \end{itemize}
+An Error message have 4 parts:
+  \begin{itemize}
+  \item The stack trace
+  \item The error itself (THE MOST IMPORTANT PART!)
+  \item Details about the error message
+  \item Sometimes, some HINTs at the end.
+  \end{itemize}
+
+  If multiple errors, check the first one.
+\end{frame}
+
 \subsection{Error message}
 \begin{frame}[fragile]
   \frametitle{Error message: code}
@@ -97,7 +115,7 @@ Outputs clients: [['output']]
 \begin{frame}[fragile]
   \frametitle{Error message: 2st part}
 HINT: Re-running with most Theano optimization
-disabled could give you a back-traces when this
+disabled could give you a backtrace when this
 node was created. This can be done with by setting
 the Theano flags ``optimizer=fast\_compile''. If that does not
 work, Theano optimizations can be disabled with
@@ -160,17 +178,19 @@ Backtrace when the node is created:
 \subsection{Breakpoint}
 \begin{frame}[fragile]
   \frametitle{Breakpoint Op} Identity-like op with the side effect of
-  enforcing a conditional breakpoint, inside a theano function, based
+  enforcing a conditional breakpoint in Python Debugger (PDB), inside a theano function, based
   on a symbolic scalar condition.
 \end{frame}
 
 \begin{frame}[fragile]
   \frametitle{Breakpoint Op: optimization}
-  Theano optimization don't know it.
+ Most Theano optimizations don't recognize it except one
+ optimization that transfer it to the GPU.
 \begin{itemize}
   \item Could slow down computation, but not too much.
-  \item Could disable stability optimization
-  \item It is moved to the GPU (it do not force transfer)
+  \item Could prevent stability optimizations.
+  \item Can be moved to the GPU. It does not add extra transfers.
+  \item The output of the breakpoint op must be used in the graph.
 \end{itemize}
 \end{frame}
 
@@ -190,9 +210,9 @@ input, target = T.fvectors('xy')
 
 mse = (input - target) ** 2
 
-# Conditional breakpoint to be activated if the total MSE is higher
-# than 100. The breakpoint will monitor the inputs, targets as well
-# as the individual error values
+# Conditional breakpoint to be activated if the total
+# MSE > 100. The breakpoint will monitor the inputs,
+# targets as well as the individual error values
 breakpointOp = PdbBreakpoint(``MSE too high'')
 condition = T.gt(mse.sum(), 100)
 mse, monitored_input, monitored_target = breakpointOp(
@@ -222,7 +242,9 @@ print fct([0, 0], [10, 5]) # Will activate the breakpoint
 \subsection{PrintOp}
 \begin{frame}[fragile]
   \frametitle{PrintOp}
-Allow to print during execution
+Allow to print during execution. The output of the print op must be
+used in the graph.
+ \vspace{1cm}
 \lstset{language=Python,
         commentstyle=\itshape\color{blue},
         stringstyle=\color{violet},
@@ -244,8 +266,8 @@ a message  __str__ = [ 3.  4.]
 \begin{frame}
   \frametitle{Most Frequent NaN Causes}
 \begin{itemize}
-\item Hyper parameter (ex: learning rate)
-\item Initialization of weight vectors
+\item Hyperparameters (ex: learning rate)
+\item Initialization of parameters
 \item Numerical Stability
 \item Algorithm Related
 \end{itemize}
@@ -294,10 +316,15 @@ fun(infa)
 \subsection{Test Value}
 \begin{frame}[fragile]
   \frametitle{Test Value}
-Set a value to symbolic variable and use it when building the graph.
 
+Give a sample value to symbolic variables and have the graph execution
+when you build it. This allow to get some type of error like shape
+errors when you build the graph.
  \vspace{1cm}
+\end{frame}
 
+\begin{frame}[fragile]
+  \frametitle{Test Value: Example}
 \lstset{language=Python,
         commentstyle=\itshape\color{blue},
         stringstyle=\color{violet},
@@ -308,9 +335,11 @@ Set a value to symbolic variable and use it when building the graph.
 # Can also be 'off', 'ignore', 'raise', 'pdb'
 theano.config.compute_test_value = 'warn'
 # input which will be of shape (5, 10)
-x  = T.matrix('x')
+x, y  = T.matrices('xy')
 # provide Theano with a default test-value
 x.tag.test_value = numpy.random.rand(5, 10)
+y.tag.test_value = numpy.random.rand(4, 10)
+x + y # warn about the shape error
 \end{lstlisting}
 
 \end{frame}
@@ -320,14 +349,39 @@ x.tag.test_value = numpy.random.rand(5, 10)
   \frametitle{Others}
   \begin{itemize}
   \item theano.tensor.opt.AssertOp
-  \item theano.printig.{debugprint,pydotprint}
-
-
+    \begin{itemize}
+    \item Assertion during execution
+    \end{itemize}
+  \item theano.printing.\{debugprint,pydotprint\}
+    \begin{itemize}
+    \item Text and graphique display of Theano graph
+    \end{itemize}
   \item Flag: profile=True
-  \item Flag: exception\_verbosity=True (ex: for Memory Error)
+    \begin{itemize}
+    \item Profile the execution time of Theano function
+    \end{itemize}
+  \item Flag: exception\_verbosity=True
+    \begin{itemize}
+    \item Extra verbose error, ex: for Memory Error
+    \end{itemize}
+  \item Flag: warn\_float64='pdb'
+    \begin{itemize}
+    \item  Allow to know where float64 are build in the graph
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Others: advanced}
+  \begin{itemize}
   \item Flag: on\_opt\_err=True
+    \begin{itemize}
+    \item Make Theano stop of optimization error instead of skipping them
+    \end{itemize}
   \item Flag: optimizer\_verbose=True
-  \item Flag: warn\_float64=True
+    \begin{itemize}
+    \item Make Theano print each optimization it apply
+    \end{itemize}
   \end{itemize}
 \end{frame}
 
@@ -342,13 +396,15 @@ x.tag.test_value = numpy.random.rand(5, 10)
   \end{itemize}
 \end{frame}
 
-\subsection{Introduction}
+\subsection{Theano}
 \begin{frame}
   \frametitle{Theano + PDB}
-  Can be combined with Theano flags to disable Theano c code:
+  Can be used with Theano:
   \begin{itemize}
     \item mode=FAST\_COMPILE \# Disable most of opt + c code.
     \item linker=py \# Disable c code.
+    \item PdbBreakpoint \# Breakpoing during execution.
+    \item Some Theano flags have a pdb value (ex: warn\_float64)
   \end{itemize}
 \end{frame}
 
