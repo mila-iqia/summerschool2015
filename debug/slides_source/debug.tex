@@ -54,7 +54,7 @@ Université de Montréal
   \item Much information in them
   \item Take the time to read them
   \end{itemize}
-An Error message have 4 parts:
+An Error message has 4 parts:
   \begin{itemize}
   \item The stack trace
   \item The error itself (THE MOST IMPORTANT PART!)
@@ -115,7 +115,7 @@ Outputs clients: [['output']]
 \begin{frame}[fragile]
   \frametitle{Error message: 2st part}
 HINT: Re-running with most Theano optimization
-disabled could give you a backtrace when this
+disabled could give you a backtrace of when this
 node was created. This can be done with by setting
 the Theano flags ``optimizer=fast\_compile''. If that does not
 work, Theano optimizations can be disabled with
@@ -220,7 +220,7 @@ Backtrace when the node is created:
   \item Could slow down computation, but not too much.
   \item Could prevent stability optimizations.
   \item Can be moved to the GPU. It does not add extra transfers.
-  \item The output of the breakpoint op must be used in the graph.
+  \item One of the outputs of the breakpoint op must be used in the graph.
 \end{itemize}
 \end{frame}
 
@@ -272,8 +272,8 @@ print fct([0, 0], [10, 5]) # Will activate the breakpoint
 \subsection{PrintOp}
 \begin{frame}[fragile]
   \frametitle{PrintOp}
-Allow to print during execution. The output of the print op must be
-used in the graph.
+Allows to print the value of a variable during execution. The output
+of the print op must be used in the graph.
  \vspace{1cm}
 \lstset{language=Python,
         commentstyle=\itshape\color{blue},
@@ -347,9 +347,9 @@ fun(infa)
 \begin{frame}[fragile]
   \frametitle{Test Value}
 
-Give a sample value to symbolic variables and have the graph execution
-when you build it. This allow to get some type of error like shape
-errors when you build the graph.
+Give sample values to symbolic variables and have the graph execute
+as it is being built. This allows to get some type of error like shape
+errors when you build the graph instead of during the execution.
  \vspace{1cm}
 \end{frame}
 
@@ -384,7 +384,7 @@ x + y # warn about the shape error
     \end{itemize}
   \item theano.printing.\{debugprint,pydotprint\}
     \begin{itemize}
-    \item Text and graphique display of Theano graph
+    \item Text and graphic display of Theano graphs
     \end{itemize}
   \item Flag: profile=True
     \begin{itemize}
@@ -392,11 +392,11 @@ x + y # warn about the shape error
     \end{itemize}
   \item Flag: exception\_verbosity=True
     \begin{itemize}
-    \item Extra verbose error, ex: for Memory Error
+    \item Extra verbose errors, ex: for Memory Error
     \end{itemize}
   \item Flag: warn\_float64='pdb'
     \begin{itemize}
-    \item  Allow to know where float64 are build in the graph
+    \item  Allows to know where float64 are build in the graph
     \end{itemize}
   \end{itemize}
 \end{frame}
@@ -406,11 +406,11 @@ x + y # warn about the shape error
   \begin{itemize}
   \item Flag: on\_opt\_err=True
     \begin{itemize}
-    \item Make Theano stop of optimization error instead of skipping them
+    \item Make Theano stop on optimization error instead of skipping them
     \end{itemize}
   \item Flag: optimizer\_verbose=True
     \begin{itemize}
-    \item Make Theano print each optimization it apply
+    \item Make Theano print each optimization it applies
     \end{itemize}
   \end{itemize}
 \end{frame}
