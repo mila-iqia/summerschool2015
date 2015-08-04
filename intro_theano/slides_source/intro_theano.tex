@@ -306,15 +306,14 @@ i = theano.function([x, W, b], [dot + b, out])
       \begin{verbatim}
 theano.printing.debugprint(f)
 CGemv{inplace} [@A] ''   3
- |Alloc [@B] ''   2
- | |TensorConstant{0.0} [@C]
- | |Shape_i{1} [@D] ''   1
- |   |W [@E]
- |TensorConstant{1.0} [@F]
- |InplaceDimShuffle{1,0} [@G] 'W.T'   0
- | |W [@E]
- |x [@H]
- |TensorConstant{0.0} [@C]
+ |AllocEmpty{dtype='float64'} [@B] ''   2
+ | |Shape_i{1} [@C] ''   1
+ |   |W [@D]
+ |TensorConstant{1.0} [@E]
+ |InplaceDimShuffle{1,0} [@F] 'W.T'   0
+ | |W [@D]
+ |x [@G]
+ |TensorConstant{0.0} [@H]
 
 theano.printing.pydotprint(f)
       \end{verbatim}
@@ -691,7 +690,7 @@ cost_and_perform_updates = theano.function(
     \item Avoids context switching between C and Python
     \item Data structure containing
       \begin{itemize}
-        \item Addresses of inputs and ouptuts of all nodes (intermediate values)
+        \item Addresses of inputs and outputs of all nodes (intermediate values)
         \item Ordering constraints
         \item Pointer to functions performing the computations
         \item Information on what has been computed, and needs to be computed
@@ -807,6 +806,9 @@ def numpy_dot(a, b):
 \begin{frame}{Features recently added to Theano}
   \begin{itemize}
     \item Integration of CuDNN for 2D convolutions and pooling
+      \begin{itemize}
+        \item As of today: CuDNN v3, with 3D convolutions and pooling as well
+      \end{itemize}
     \item Execution of un-optimized graph on GPU (quicker compile time)
     \item Easier way of writing C code for Ops
     \item Serialize GPU shared variables as ndarrays, for loading on a machine with no GPU
@@ -817,15 +819,16 @@ def numpy_dot(a, b):
 \end{frame}
 
 \subsection{Features Coming Soon}
-\begin{frame}{What to expect in the near future}
+\begin{frame}[fragile]{What to expect in the near future}
   \begin{itemize}
     \item New GPU backend, with arrays of all dtypes, for CUDA and OpenCL
+    \item Support for half-precision float on GPU (\verb|float16|)
     \item Support for multiple GPUs in the same function
     \item GSoC project: manipulate functions without re-optimizing them
     \item GSoC project: faster optimization phase
     \item GSoC project: interactive visualization
-    %\item Faster implementation of convolution / cross-correlation on CPU and GPU
-    %\item Better interface for convolution and deconvolution
+    \item Faster implementation of convolution / cross-correlation on CPU
+    \item Better interface for convolution and deconvolution
   \end{itemize}
 \end{frame}
 
