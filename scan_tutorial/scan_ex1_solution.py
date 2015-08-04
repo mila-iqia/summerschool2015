@@ -11,7 +11,7 @@ def step(coeff, power, prior_value, free_var):
 
 # Generate the components of the polynomial
 full_range = T.arange(max_coefficients_supported)
-outputs_info = np.zeros((), dtype="float32")
+outputs_info = np.zeros((), dtype=theano.config.floatX)
 
 components, updates = theano.scan(fn=step,
                                   sequences=[coefficients, full_range],
@@ -23,5 +23,5 @@ calculate_polynomial = theano.function(inputs=[coefficients, x],
                                        outputs=polynomial,
                                        updates=updates)
 
-test_coeff = np.asarray([1, 0, 2], dtype=np.float32)
+test_coeff = np.asarray([1, 0, 2], dtype=theano.config.floatX)
 print(calculate_polynomial(test_coeff, 3))

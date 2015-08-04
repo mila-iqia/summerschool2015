@@ -42,6 +42,6 @@ f = theano.function(inputs=[probabilities, nb_samples],
                     updates=updates)
 
 # Testing the function
-test_probs = np.asarray([0.6, 0.3, 0.1], dtype=np.float32)
+test_probs = np.asarray([0.6, 0.3, 0.1], dtype=theano.config.floatX)
 for i in range(10):
     print(f(test_probs, 2))
