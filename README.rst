@@ -87,11 +87,14 @@ command installs it for the current user only:
 
 .. code-block:: bash
 
-  $ pip install --upgrade git+git://github.com/Theano/Theano.git --user
+  $ pip install git+git://github.com/Theano/Theano.git --user
 
 If you are following these instructions in advance, you may need to
-execute that command again in order to get last-minute fixes.
+execute this command in order to get last-minute fixes:
 
+.. code-block:: bash
+
+  $ pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git --user
 
 Fuel
 ----
@@ -102,8 +105,14 @@ Then, we install the development version of Fuel from GitHub.
 .. code-block:: bash
 
   $ conda install pillow h5py
-  $ pip install --upgrade git+git://github.com/mila-udem/fuel.git --user
+  $ pip install git+git://github.com/mila-udem/fuel.git --user
 
+If you are following these instructions in advance, you may need to
+execute this command in order to get last-minute fixes:
+
+.. code-block:: bash
+
+  $ pip install --upgrade --no-deps git+git://github.com/mila-udem/fuel.git --user
 
 Get and run these tutorials
 ===========================
