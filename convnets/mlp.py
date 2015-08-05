@@ -232,7 +232,7 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
     ######################
     # BUILD ACTUAL MODEL #
     ######################
-    print '... building the model'
+    print('... building the model')
 
     # allocate symbolic variables for the data
     index = T.lscalar()  # index to a [mini]batch
@@ -315,7 +315,7 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
     ###############
     # TRAIN MODEL #
     ###############
-    print '... training'
+    print('... training')
 
     # early-stopping parameters
     patience = 10000  # look as this many examples regardless

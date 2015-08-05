@@ -32,13 +32,13 @@ References:
                  Christopher M. Bishop, section 4.3.2
 
 """
-import cPickle
 import gzip
 import os
 import sys
 import time
 
 import numpy
+from six.moves import cPickle
 
 import theano
 import theano.tensor as T
@@ -197,10 +197,10 @@ def load_data(dataset):
         origin = (
             'http://www.iro.umontreal.ca/~lisa/deep/data/mnist/mnist.pkl.gz'
         )
-        print 'Downloading data from %s' % origin
+        print('Downloading data from %s' % origin)
         urllib.urlretrieve(origin, dataset)
 
-    print '... loading data'
+    print('... loading data')
 
     # Load the dataset
     f = gzip.open(dataset, 'rb')
@@ -282,7 +282,7 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000,
     ######################
     # BUILD ACTUAL MODEL #
     ######################
-    print '... building the model'
+    print('... building the model')
 
     # allocate symbolic variables for the data
     index = T.lscalar()  # index to a [mini]batch
@@ -347,7 +347,7 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000,
     ###############
     # TRAIN MODEL #
     ###############
-    print '... training the model'
+    print('... training the model')
     # early-stopping parameters
     patience = 5000  # look as this many examples regardless
     patience_increase = 2  # wait this much longer when a new best is found
@@ -428,8 +428,8 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000,
         )
         % (best_validation_loss * 100., test_score * 100.)
     )
-    print 'The code run for %d epochs, with %f epochs/sec' % (
-        epoch, 1. * epoch / (end_time - start_time))
+    print('The code run for %d epochs, with %f epochs/sec' % (
+        epoch, 1. * epoch / (end_time - start_time)))
 
     print >> sys.stderr, ('The code ran for %.1fs' % ((end_time - start_time)))
 
