@@ -26,7 +26,7 @@ Then, in a terminal:
 
 .. code-block:: bash
 
-  $ conda update conda
+  $ conda update conda numpy scipy
 
 
 Additional steps for Windows
@@ -101,7 +101,7 @@ Then, we install the development version of Fuel from GitHub.
 
 .. code-block:: bash
 
-  $ conda install pillow
+  $ conda install pillow h5py
   $ pip install --upgrade git+git://github.com/mila-udem/fuel.git --user
 
 
