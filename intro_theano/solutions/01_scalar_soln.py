@@ -36,4 +36,4 @@ b = np.cast[b.dtype](2.)
 actual = f(a, b)
 expected = 1. + np.log(2.)
 assert np.allclose(actual, expected)
-print "SUCCESS!"
+print("SUCCESS!")

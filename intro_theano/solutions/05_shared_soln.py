@@ -57,4 +57,4 @@ assert len(rval) == 0
 assert np.all(a.get_value() == 0.)
 assert np.all(b.get_value() == 1.)
 
-print "SUCCESS!"
+print("SUCCESS!")

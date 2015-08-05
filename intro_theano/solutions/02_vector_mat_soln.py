@@ -56,4 +56,4 @@ expected = np.dot(d_value, c_value)
 actual = f(a_value, b_value, d_value)
 
 assert np.allclose(actual, expected)
-print "SUCCESS!"
+print("SUCCESS!")

@@ -55,4 +55,4 @@ expected = c_value.max(axis=1).max(axis=1)
 actual = f(a_value, b_value)
 
 assert np.allclose(actual, expected), (actual, expected)
-print "SUCCESS!"
+print("SUCCESS!")
