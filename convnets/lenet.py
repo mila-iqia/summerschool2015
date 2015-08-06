@@ -21,6 +21,7 @@ References:
    http://yann.lecun.com/exdb/publis/pdf/lecun-98.pdf
 
 """
+from __future__ import print_function
 import sys
 import time
 
@@ -317,5 +318,5 @@ def evaluate_lenet5(train, test, valid,
     print('Best validation score of %f %% obtained at iteration %i, '
           'with test performance %f %%' %
           (best_validation_loss * 100., best_iter + 1, test_score * 100.))
-    print >> sys.stderr, ('The code ran for %.2fm' %
-                          ((end_time - start_time) / 60.))
+    print('The code ran for %.2fm' % ((end_time - start_time) / 60.),
+          file=sys.stderr)

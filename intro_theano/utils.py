@@ -8,6 +8,7 @@ image from a set of samples or weights.
 
 
 import numpy
+from six.moves import xrange
 
 
 def scale_to_unit_interval(ndar, eps=1e-8):

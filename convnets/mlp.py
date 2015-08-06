@@ -18,10 +18,12 @@ References:
                  Christopher M. Bishop, section 5
 
 """
+from __future__ import print_function
 import sys
 import time
 
 import numpy
+from six.moves import xrange
 
 import theano
 import theano.tensor as T
@@ -225,14 +227,14 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
     test_set_x, test_set_y = datasets[2]
 
     # compute number of minibatches for training, validation and testing
-    n_train_batches = train_set_x.get_value(borrow=True).shape[0] / batch_size
-    n_valid_batches = valid_set_x.get_value(borrow=True).shape[0] / batch_size
-    n_test_batches = test_set_x.get_value(borrow=True).shape[0] / batch_size
+    n_train_batches = train_set_x.get_value(borrow=True).shape[0] // batch_size
+    n_valid_batches = valid_set_x.get_value(borrow=True).shape[0] // batch_size
+    n_test_batches = test_set_x.get_value(borrow=True).shape[0] // batch_size
 
     ######################
     # BUILD ACTUAL MODEL #
     ######################
-    print '... building the model'
+    print('... building the model')
 
     # allocate symbolic variables for the data
     index = T.lscalar()  # index to a [mini]batch
@@ -315,7 +317,7 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
     ###############
     # TRAIN MODEL #
     ###############
-    print '... training'
+    print('... training')
 
     # early-stopping parameters
     patience = 10000  # look as this many examples regardless
@@ -390,8 +392,8 @@ def test_mlp(learning_rate=0.01, L1_reg=0.00, L2_reg=0.0001, n_epochs=1000,
     print(('Optimization complete. Best validation score of %f %% '
            'obtained at iteration %i, with test performance %f %%') %
           (best_validation_loss * 100., best_iter + 1, test_score * 100.))
-    print >> sys.stderr, ('The code ran for %.2fm' %
-                          ((end_time - start_time) / 60.))
+    print('The code ran for %.2fm' % ((end_time - start_time) / 60.),
+          file=sys.stderr)
 
     # Call Python GC to make sure the GPU memory is freed. That way,
     # we are sure next call will have enough memory.

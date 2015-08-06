@@ -21,4 +21,4 @@ x = T.iscalar()
 y = T.iscalar()
 z = x + y
 assert evaluate(x, y, z, 1, 2) == 3
-print "SUCCESS!"
+print("SUCCESS!")

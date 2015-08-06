@@ -20,4 +20,4 @@ y = T.scalar()
 z = x + y
 s = grad_sum(x, y, z)
 assert s.eval({x: 0, y: 0}) == 2
-print "SUCCESS!"
+print("SUCCESS!")
