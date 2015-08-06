@@ -41,7 +41,7 @@ These additional steps are required for Windows:
 
 - Install a C++ compiler and Python DLL. From a shell:
 
-  .. code-block:: bash
+  .. code-block:: winbatch
 
     conda install mingw libpython
 
@@ -50,23 +50,41 @@ Optional: Additional step to display the graphics
 +++++++++++++++++++++++++++++++++++++++++++++++++
 If you do not follow these steps, the `pydotprint` command will raise an exception and fail, but the other functionalities of Theano would still work.
 
-  $ conda install pydot
+On Ubuntu/Debian
+~~~~~~~~~~~~~~~~
 
-Under Ubuntu/Debian:
+.. code-block:: bash
 
   $ sudo apt-get install graphviz
+  $ conda install pydot
 
-Under Fedora, Cent OS, Red Hat Enterprise:
+On Fedora, CentOS, Red Hat Enterprise
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code-block:: bash
 
   $ sudo yum install graphviz
+  $ conda install pydot
 
-Under Mac:
+On MacOS
+~~~~~~~~
+- Download graphviz from http://www.graphviz.org/Download_macos.php
+- Then, from a terminal:
 
-  Download graphviz from: http://www.graphviz.org/Download_macos.php
+  .. code-block:: bash
 
-Under Windows:
+    $ conda install pydot
 
-  Download graphvix from: http://www.graphviz.org/Download_windows.php
+On Windows
+~~~~~~~~~~
+- Download graphviz from http://www.graphviz.org/Download_windows.php
+- Add to the `PATH` environment variable the directory where the
+  binaries were installed, by default
+  `C:\\Program Files (x86)\\Graphviz2.38\\bin`
+- Then, from a terminal:
+
+  .. code-block:: winbatch
+
+    pip install pydot_ng
 
 Optional: MKL Blas
 ++++++++++++++++++
