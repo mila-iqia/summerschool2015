@@ -35,7 +35,9 @@ Additional steps for Windows
 These additional steps are required for Windows:
 
 - Download Git_, and execute the installer. This will be necessary to
-  get the latest version of Theano and Fuel.
+  get the latest version of Theano and Fuel. We recommand you select
+  "Use Git from the Windows Command Prompt" option, so you can execute
+  all the following command lines from the regular Windows `cmd` shell.
 
 - Install a C++ compiler and Python DLL. From a shell:
 
@@ -44,8 +46,9 @@ These additional steps are required for Windows:
     conda install mingw libpython
 
 
-Opt: Additional step to display the graphics
-++++++++++++++++++++++++++++++++++++++++++++
+Optional: Additional step to display the graphics
++++++++++++++++++++++++++++++++++++++++++++++++++
+If you do not follow these steps, the `pydotprint` command will raise an exception and fail, but the other functionalities of Theano would still work.
 
   $ conda install pydot
 
@@ -88,6 +91,14 @@ command installs it for the current user only:
 .. code-block:: bash
 
   $ pip install git+git://github.com/Theano/Theano.git --user
+
+.. note:
+
+  If you are using Windows and selected "Use Git from Git Bash only" when
+  installing Git, or if the command above failed because git is not
+  available in the path, then you need to run the command line above
+  from the "Git Bash" terminal instead of the regular Windows command
+  prompt.
 
 If you are following these instructions in advance, you may need to
 execute this command in order to get last-minute fixes:
