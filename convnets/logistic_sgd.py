@@ -32,13 +32,15 @@ References:
                  Christopher M. Bishop, section 4.3.2
 
 """
+from __future__ import print_function
 import gzip
 import os
 import sys
 import time
 
 import numpy
-from six.moves import cPickle
+import six
+from six.moves import cPickle, xrange
 
 import theano
 import theano.tensor as T
@@ -193,18 +195,21 @@ def load_data(dataset):
                     dataset = new_path
 
     if (not os.path.isfile(dataset)) and data_file == 'mnist.pkl.gz':
-        import urllib
+        from six.moves.urllib.request import urlretrieve
         origin = (
             'http://www.iro.umontreal.ca/~lisa/deep/data/mnist/mnist.pkl.gz'
         )
         print('Downloading data from %s' % origin)
-        urllib.urlretrieve(origin, dataset)
+        urlretrieve(origin, dataset)
 
     print('... loading data')
 
     # Load the dataset
     f = gzip.open(dataset, 'rb')
-    train_set, valid_set, test_set = cPickle.load(f)
+    if six.PY3:
+        train_set, valid_set, test_set = cPickle.load(f, encoding='latin1')
+    else:
+        train_set, valid_set, test_set = cPickle.load(f)
     f.close()
     # train_set, valid_set, test_set format: tuple(input, target)
     # input is an numpy.ndarray of 2 dimensions (a matrix)
@@ -275,9 +280,9 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000,
     test_set_x, test_set_y = datasets[2]
 
     # compute number of minibatches for training, validation and testing
-    n_train_batches = train_set_x.get_value(borrow=True).shape[0] / batch_size
-    n_valid_batches = valid_set_x.get_value(borrow=True).shape[0] / batch_size
-    n_test_batches = test_set_x.get_value(borrow=True).shape[0] / batch_size
+    n_train_batches = train_set_x.get_value(borrow=True).shape[0] // batch_size
+    n_valid_batches = valid_set_x.get_value(borrow=True).shape[0] // batch_size
+    n_test_batches = test_set_x.get_value(borrow=True).shape[0] // batch_size
 
     ######################
     # BUILD ACTUAL MODEL #
@@ -431,7 +436,8 @@ def sgd_optimization_mnist(learning_rate=0.13, n_epochs=1000,
     print('The code run for %d epochs, with %f epochs/sec' % (
         epoch, 1. * epoch / (end_time - start_time)))
 
-    print >> sys.stderr, ('The code ran for %.1fs' % ((end_time - start_time)))
+    print('The code ran for %.1fs' % ((end_time - start_time)),
+          file=sys.stderr)
 
     # Call Python GC to make sure the GPU memory is freed. That way,
     # we are sure next call will have enough memory.
