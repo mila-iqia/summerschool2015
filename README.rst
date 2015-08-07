@@ -125,6 +125,18 @@ execute this command in order to get last-minute fixes:
 
   $ pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git --user
 
+.. note:
+
+  If you install Theano for the current user only (using `--user`),
+  command-line utilities (for instance `theano-cache`) will not be
+  accessible from a terminal directly. You would have to add the script
+  installation directory to the `PATH` environment variable.
+
+  - On Mac OS and Linux, that path is `$HOME/.local/bin` by default.
+  - On Windows 7, that path is `C:\<User>\AppData\Roaming\Python\Scripts`
+    if your user name is "<User>".
+
+
 Fuel
 ----
 
@@ -141,6 +153,19 @@ execute this command in order to get last-minute fixes:
 .. code-block:: bash
 
   $ pip install --upgrade --no-deps git+git://github.com/mila-udem/fuel.git --user
+
+.. note:
+
+  If you install Fuel for the current user only (using `--user`),
+  command-line utilities (for instance `fuel-download` and `fuel-convert`)
+  will not be accessible from a terminal directly. Unless you have already
+  performed that step when installing Theano, you would have to add the script
+  installation directory to the `PATH` environment variable.
+
+  - On Mac OS and Linux, that path is `$HOME/.local/bin` by default.
+  - On Windows 7, that path is `C:\<User>\AppData\Roaming\Python\Scripts`
+    if your user name is "<User>".
+
 
 Get and run these tutorials
 ===========================
