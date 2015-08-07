@@ -133,7 +133,7 @@ execute this command in order to get last-minute fixes:
   installation directory to the `PATH` environment variable.
 
   - On Mac OS and Linux, that path is `$HOME/.local/bin` by default.
-  - On Windows 7, that path is `C:\<User>\AppData\Roaming\Python\Scripts`
+  - On Windows 7, that path is `C:\\<User>\\AppData\\Roaming\\Python\\Scripts`
     if your user name is "<User>".
 
 
@@ -162,7 +162,7 @@ execute this command in order to get last-minute fixes:
   installation directory to the `PATH` environment variable.
 
   - On Mac OS and Linux, that path is `$HOME/.local/bin` by default.
-  - On Windows 7, that path is `C:\<User>\AppData\Roaming\Python\Scripts`
+  - On Windows 7, that path is `C:\\<User>\\AppData\\Roaming\\Python\\Scripts`
     if your user name is "<User>".
 
 
