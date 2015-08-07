@@ -35,35 +35,56 @@ Additional steps for Windows
 These additional steps are required for Windows:
 
 - Download Git_, and execute the installer. This will be necessary to
-  get the latest version of Theano and Fuel.
+  get the latest version of Theano and Fuel. We recommand you select
+  "Use Git from the Windows Command Prompt" option, so you can execute
+  all the following command lines from the regular Windows `cmd` shell.
 
 - Install a C++ compiler and Python DLL. From a shell:
 
-  .. code-block:: bash
+  .. code-block:: winbatch
 
     conda install mingw libpython
 
 
-Opt: Additional step to display the graphics
-++++++++++++++++++++++++++++++++++++++++++++
+Optional: Additional step to display the graphics
++++++++++++++++++++++++++++++++++++++++++++++++++
+If you do not follow these steps, the `pydotprint` command will raise an exception and fail, but the other functionalities of Theano would still work.
 
-  $ conda install pydot
+On Ubuntu/Debian
+~~~~~~~~~~~~~~~~
 
-Under Ubuntu/Debian:
+.. code-block:: bash
 
   $ sudo apt-get install graphviz
+  $ conda install pydot
 
-Under Fedora, Cent OS, Red Hat Enterprise:
+On Fedora, CentOS, Red Hat Enterprise
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code-block:: bash
 
   $ sudo yum install graphviz
+  $ conda install pydot
 
-Under Mac:
+On MacOS
+~~~~~~~~
+- Download graphviz from http://www.graphviz.org/Download_macos.php
+- Then, from a terminal:
 
-  Download graphviz from: http://www.graphviz.org/Download_macos.php
+  .. code-block:: bash
 
-Under Windows:
+    $ conda install pydot
 
-  Download graphvix from: http://www.graphviz.org/Download_windows.php
+On Windows
+~~~~~~~~~~
+- Download graphviz from http://www.graphviz.org/Download_windows.php
+- Add to the `PATH` environment variable the directory where the
+  binaries were installed, by default
+  `C:\\Program Files (x86)\\Graphviz2.38\\bin`
+- Then, from a terminal:
+
+  .. code-block:: winbatch
+
+    pip install pydot_ng
 
 Optional: MKL Blas
 ++++++++++++++++++
@@ -89,12 +110,32 @@ command installs it for the current user only:
 
   $ pip install git+git://github.com/Theano/Theano.git --user
 
+.. note:
+
+  If you are using Windows and selected "Use Git from Git Bash only" when
+  installing Git, or if the command above failed because git is not
+  available in the path, then you need to run the command line above
+  from the "Git Bash" terminal instead of the regular Windows command
+  prompt.
+
 If you are following these instructions in advance, you may need to
 execute this command in order to get last-minute fixes:
 
 .. code-block:: bash
 
   $ pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git --user
+
+.. note:
+
+  If you install Theano for the current user only (using `--user`),
+  command-line utilities (for instance `theano-cache`) will not be
+  accessible from a terminal directly. You would have to add the script
+  installation directory to the `PATH` environment variable.
+
+  - On Mac OS and Linux, that path is `$HOME/.local/bin` by default.
+  - On Windows 7, that path is `C:\<User>\AppData\Roaming\Python\Scripts`
+    if your user name is "<User>".
+
 
 Fuel
 ----
@@ -112,6 +153,19 @@ execute this command in order to get last-minute fixes:
 .. code-block:: bash
 
   $ pip install --upgrade --no-deps git+git://github.com/mila-udem/fuel.git --user
+
+.. note:
+
+  If you install Fuel for the current user only (using `--user`),
+  command-line utilities (for instance `fuel-download` and `fuel-convert`)
+  will not be accessible from a terminal directly. Unless you have already
+  performed that step when installing Theano, you would have to add the script
+  installation directory to the `PATH` environment variable.
+
+  - On Mac OS and Linux, that path is `$HOME/.local/bin` by default.
+  - On Windows 7, that path is `C:\<User>\AppData\Roaming\Python\Scripts`
+    if your user name is "<User>".
+
 
 Get and run these tutorials
 ===========================
