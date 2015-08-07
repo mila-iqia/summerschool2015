@@ -110,7 +110,7 @@ command installs it for the current user only:
 
   $ pip install git+git://github.com/Theano/Theano.git --user
 
-.. note:
+.. note::
 
   If you are using Windows and selected "Use Git from Git Bash only" when
   installing Git, or if the command above failed because git is not
@@ -125,7 +125,7 @@ execute this command in order to get last-minute fixes:
 
   $ pip install --upgrade --no-deps git+git://github.com/Theano/Theano.git --user
 
-.. note:
+.. note::
 
   If you install Theano for the current user only (using `--user`),
   command-line utilities (for instance `theano-cache`) will not be
@@ -140,8 +140,7 @@ execute this command in order to get last-minute fixes:
 Fuel
 ----
 
-Some of Fuel's dependencies have to be installed via `conda`.
-Then, we install the development version of Fuel from GitHub.
+We install the development version of Fuel from GitHub.
 
 .. code-block:: bash
 
@@ -154,7 +153,7 @@ execute this command in order to get last-minute fixes:
 
   $ pip install --upgrade --no-deps git+git://github.com/mila-udem/fuel.git --user
 
-.. note:
+.. note::
 
   If you install Fuel for the current user only (using `--user`),
   command-line utilities (for instance `fuel-download` and `fuel-convert`)
