@@ -17,7 +17,8 @@ from fuel.transformers import Batch, Padding
 # http://www-etud.iro.umontreal.ca/~brakelp/train.txt.gz
 # http://www-etud.iro.umontreal.ca/~brakelp/dictionary.pkl
 # don't forget to change the paths and gunzip train.txt.gz
-DATA_FILE = '/u/brakelp/temp/train.txt'
+TRAIN_FILE = '/u/brakelp/temp/traindata.txt'
+VAL_FILE = '/u/brakelp/temp/valdata.txt'
 DICT_FILE = '/u/brakelp/temp/dictionary.pkl'
 
 
@@ -164,7 +165,7 @@ def train_model(batch_size=100, n_h=50, n_epochs=40):
     reverse_mapping = dict((j, i) for i, j in dictionary.items())
 
     print("Loading the data")
-    train = TextFile(files=[DATA_FILE],
+    train = TextFile(files=[TRAIN_FILE],
                      dictionary=dictionary,
                      unk_token='~',
                      level='character',
@@ -178,6 +179,22 @@ def train_model(batch_size=100, n_h=50, n_epochs=40):
     train_stream = Batch(train_stream,
                          iteration_scheme=ConstantScheme(batch_size))
     train_stream = Padding(train_stream)
+
+    # idem dito for the validation text
+    val = TextFile(files=[VAL_FILE],
+                     dictionary=dictionary,
+                     unk_token='~',
+                     level='character',
+                     preprocess=str.lower,
+                     bos_token=None,
+                     eos_token=None)
+
+    val_stream = DataStream.default_stream(val)
+
+    # organize data in batches and pad shorter sequences with zeros
+    val_stream = Batch(val_stream,
+                         iteration_scheme=ConstantScheme(batch_size))
+    val_stream = Padding(val_stream)
 
     print('Building model')
 
@@ -214,11 +231,9 @@ def train_model(batch_size=100, n_h=50, n_epochs=40):
         for param_i, grad_i in zip(params, grads)
     ]
 
-    update_model = theano.function(
-        [x, mask],
-        cost,
-        updates=updates
-    )
+    update_model = theano.function([x, mask], cost, updates=updates)
+
+    evaluate_model = theano.function([x, mask], cost)
 
     # Define and compile a function for generating a sequence step by step.
     x_t = T.iscalar()
@@ -244,10 +259,9 @@ def train_model(batch_size=100, n_h=50, n_epochs=40):
 
             cross_entropy = update_model(x_.T, mask_.T)
 
-            print 'epoch:', epoch, '  minibatch:', iteration, '  CE:', cross_entropy
 
             # Generate some text after each 20 minibatches
-            if iteration % 20 == 0:
+            if iteration % 40 == 0:
                 try:
                     prediction = numpy.ones(111, dtype=config.floatX) / 111.0
                     h_p = numpy.zeros((n_h,), dtype=config.floatX)
@@ -268,6 +282,13 @@ def train_model(batch_size=100, n_h=50, n_epochs=40):
                     print 'LSTM: "' + sentence + '"'
                 except ValueError:
                     print 'Something went wrong during sentence generation.'
+
+            if iteration % 40 == 0:
+                print 'epoch:', epoch, '  minibatch:', iteration
+                val_scores = []
+                for x_val, mask_val in val_stream.get_epoch_iterator():
+                    val_scores.append(evaluate_model(x_val.T, mask_val.T))
+                print 'Average validation CE per sentence:', numpy.mean(val_scores)
 
     end_time = time.clock()
     print('Optimization complete.')
