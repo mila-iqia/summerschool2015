@@ -1,0 +1,72 @@
+\documentclass[utf8x,xcolor=pdftex,dvipsnames,table]{beamer}
+\usetheme{Malmoe}  % Now it's a beamer presentation with the lisa theme!
+\setbeamertemplate{footline}[page number]
+\usecolortheme{beaver}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage[utf8x]{inputenc}
+\usepackage{listings}
+
+\newcommand{\superscript}[1]{\ensuremath{^{\textrm{#1}}}}
+
+\mode<presentation>
+
+\title{qwikLABS}
+
+\author{%
+\footnotesize
+\newline
+\newline
+Institut des algorithmes d'apprentissage de Montréal \newline
+Montreal Institute for Learning Algorithms \newline
+Université de Montréal
+}
+
+\date{August 11th, Deep Learning Summer School 2015, Montréal}
+
+\setbeamertemplate{navigation symbols}{}
+\begin{document}
+
+\begin{frame}[plain]
+ \titlepage
+ \vspace{-2em}
+ \includegraphics[width=.8in]{mila.png}
+ \hfill
+ \includegraphics[width=.8in]{UdeM_logo}
+\end{frame}
+
+\section{qwikLABS}
+\begin{frame}{Connection instructions}
+\begin{itemize}
+\item Navigate to \url{nvlabs.qwiklab.com}
+\item Log in or create a new account
+\item Select the ``Montréal Deep Learning Summer School 2015'' class
+\item Find the lab called ``RNNs and LSTMs in Theano'' and click Start
+\item After a short wait, lab instance connection information will be shown
+\item Please ask Lab Assistants for help!
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Questions, Acknowledgments}
+\huge
+\begin{center}
+Questions?
+\end{center}
+\Large
+Acknowledgments
+\normalsize
+\begin{itemize}
+\item Thanks to NVIDIA for providing the hands-on training platform and AWS resources.
+\item Compute Canada, RQCHP, NSERC, and Canada Research Chairs for providing funds or access to compute resources.
+\item All people working or having worked at the LISA lab/MILA institute
+\item All Theano users/contributors
+\end{itemize}
+
+\begin{small}
+If anyone would like free credits to take some of NVIDIA's self-paced labs (only requires a web browser!), or
+would like to make use of this instructor-led platform for their own workshops, please email \url{cuda-cloud@nvidia.com}.
+\end{small}
+\end{frame}
+
+
+\end{document}
