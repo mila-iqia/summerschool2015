@@ -158,7 +158,7 @@ def evaluate_lenet5(train, test, valid,
     ######################
     # BUILD ACTUAL MODEL #
     ######################
-    print '... building the model'
+    print('... building the model')
 
     # Construct the first convolutional pooling layer:
     # filtering reduces the image size to (28-5+1 , 28-5+1) = (24, 24)
@@ -237,3 +237,13 @@ def evaluate_lenet5(train, test, valid,
         cost,
         updates=updates
     )
+
+from fuel.datasets import MNIST
+train = MNIST(which_sets=('train',), subset=slice(0, 50000))
+valid = MNIST(which_sets=('train',), subset=slice(50000, 60000))
+test = MNIST(which_sets=('test',))
+
+evaluate_lenet5(
+    train, test, valid,
+    learning_rate=0.1, n_epochs=1,
+    nkerns=[10, 25], batch_size=150)
