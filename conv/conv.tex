@@ -144,7 +144,7 @@ Some vocabulary:
 
 % Technical considerations
 \begin{frame}
-Memory layout for images: 'bc01'
+Memory layout for images: 'bc01' (a.k.a 'nchw')
 
 \begin{itemize}
 \item first dimension is the batch ('b')
@@ -152,7 +152,7 @@ Memory layout for images: 'bc01'
 \item last two dimensions are the data ('0', '1')
 \end{itemize}
 
-Memory layout for filters: 'nc01'
+Memory layout for filters: 'nc01' ('nchw')
 
 \begin{itemize}
 \item first dimension is the output channel ('n')
