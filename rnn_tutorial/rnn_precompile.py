@@ -1,3 +1,15 @@
+"""This file is only here to speed up the execution of notebooks.
+
+It contains a subset of the code defined in simple_rnn.ipynb and
+lstm_text.ipynb, in particular the code compiling Theano function.
+Executing this script first will populate the cache of compiled C code,
+which will make subsequent compilations faster.
+
+The use case is to run this script in the background when a demo VM
+such as the one for NVIDIA's qwikLABS, so that the compilation phase
+started from the notebooks is faster.
+
+"""
 import numpy
 
 import theano
