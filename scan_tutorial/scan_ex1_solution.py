@@ -6,6 +6,7 @@ coefficients = T.vector("coefficients")
 x = T.scalar("x")
 max_coefficients_supported = 10000
 
+
 def step(coeff, power, prior_value, free_var):
     return prior_value + (coeff * (free_var ** power))
 
