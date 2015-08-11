@@ -36,6 +36,19 @@ Phil\'{e}mon Brakel
 \section{Recap RNNs}
 
 \begin{frame}
+    \frametitle{Recurrent Neural Networks}
+    \begin{itemize}
+        \item Can process sequences of variable length
+        \item Used to process speech, language, music,\dots
+        \item Non-linear, distributed representations, no Markov assumptions
+        \item \emph{BUT} training can be challenging
+        \item Learning long-term dependencies is difficult
+        \item Computations are not as easy to \emph{parallelize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Standard Architecture}
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}[->,thick]
@@ -58,10 +71,33 @@ Phil\'{e}mon Brakel
        }
     %\node[main] (G-\name) at (\x,0) {$\name$};
 \end{tikzpicture}
-\caption{Two Bidirectional Recurrent Neural Networks stacked on top of each
-other.}
+\caption{A simple Recurrent Neural Network}
 \label{fig:birnn}
 \end{figure}
+\end{frame}
+\begin{frame}
+    \begin{align*}
+        h_t &= q(W_{xh}x_t + W_{hh}h_{t-1} + b_h)\\
+        y_t &= r(W_{hy}h_{t} + b_y)
+    \end{align*}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Update Equations}
+    \begin{align*}
+        i_t &= \tanh(W_{xi}x_t + W_{hi}h_{t-1} + b_i)\\
+        j_t &= \sigma(W_{xj}x_t + W_{hj}h_{t-1} + b_j)\\
+        f_t &= \sigma(W_{xf}x_t + W_{hf}h_{t-1} + b_f)\\
+        o_t &= \sigma(W_{xo}x_t + W_{ho}h_{t-1} + b_o)\\
+        c_t &= f_t \otimes c_{t-1} + i_t \otimes j_t\\
+        h_t &= \tanh(c_t) \otimes o_t
+    \end{align*}
+\end{frame}
+
+\section{Long Short-Term Memory}
+\begin{frame}
+    \frametitle{Long Short-Term Memory (LSTM)}
+    Learn long term dependencies by asserting more control over what goes in and out of \emph{memory cells}.
 \end{frame}
 
 \begin{frame}
@@ -114,23 +150,101 @@ other.}
 \end{frame}
 
 \begin{frame}
+    \frametitle{Parallelizing RNN computations}
+    Apply RNNs to \emph{batches} of sequences\\
+    \begin{block}{Example}
+        Present the data as a 3D tensor of $(T \times B \times F)$.
+        Each dynamic update will now be a matrix multiplication.
+    \end{block}
 
+\end{frame}
+
+\begin{frame}
+    \frametitle{Parallelizing RNN computations}
+\centering
+\resizebox{8cm}{5cm}{
+\begin{tikzpicture}
+\tikzset{every cell/.style={draw=white}}
+\tikzset{every cell 1/.style={fill=gray}}
+
+   \foreach \row [count=\y] in {%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0}}
+     \foreach \cell [count=\x] in \row  {
+        \path [every cell/.try, every cell \cell/.try]
+        (\x,-\y) rectangle ++(1,1);
+       }
+\end{tikzpicture}
+}
+\end{frame}
+
+\begin{frame}
+\centering
+\resizebox{4cm}{2.5cm}{
 \begin{tikzpicture}
 \tikzset{every cell/.style={draw=black}}
 \tikzset{every cell 1/.style={fill=gray}}
 
    \foreach \row [count=\y] in {%
-     {1,1,1,1,1,1,1},%
-     {1,0,0,1,0,0,1},%
-     {0,0,0,1,0,0,0},%
-     {0,0,0,1,0,0,0},%
-     {0,0,0,1,0,0,0},%
-     {0,0,0,1,0,0,0},%
-     {0,0,1,1,1,0,0}}
-     \foreach \cell [count=\x] in \row  
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0}}
+     \foreach \cell [count=\x] in \row  {
         \path [every cell/.try, every cell \cell/.try]
-           (\x,-\y) rectangle ++(1,1);
+        (\x,-\y) rectangle ++(1,1);
+       }
 \end{tikzpicture}
+}
+\resizebox{4cm}{2.5cm}{
+\begin{tikzpicture}
+\tikzset{every cell/.style={draw=black}}
+\tikzset{every cell 1/.style={draw=black}}
+
+   \foreach \row [count=\y] in {%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0}}
+     \foreach \cell [count=\x] in \row  {
+        \path [every cell/.try, every cell \cell/.try]
+        (\x,-\y) rectangle ++(1,1) node[below left] {$\cell$};
+       }
+\end{tikzpicture}
+}
+\end{frame}
+
+\begin{frame}
+\centering
+\resizebox{8cm}{5cm}{
+\begin{tikzpicture}
+\tikzset{every cell/.style={draw=black}}
+\tikzset{every cell 1/.style={fill=gray}}
+
+   \foreach \row [count=\y] in {%
+     {1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},%
+     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},%
+     {1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},%
+     {1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},%
+     {1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},%
+     {1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}}
+     \foreach \cell [count=\x] in \row  {
+        \path [every cell/.try, every cell \cell/.try]
+        (\x,-\y) rectangle ++(1,1);
+       }
+\end{tikzpicture}
+}
 \end{frame}
 
 \section{RNNs with scan}
