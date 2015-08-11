@@ -14,13 +14,20 @@
 \usecolortheme{beaver}
 \setbeamertemplate{footline}[page number]
 \setbeamertemplate{navigation symbols}{}
+\mode<presentation>
 
 \title{Recurrent Neural Networks in Theano}
 
 \author{%
-Phil\'{e}mon Brakel
+    \footnotesize
+    \newline
+    \newline
+Phil\'{e}mon Brakel \newline
+Institut des algorithmes d'apprentissage de Montréal \newline
+Montreal Institute for Learning Algorithms \newline
+Université de Montréal
 }
-\date{August 11, 2015}
+\date{August 11th, Deep Learning Summer School 2015, Montréal}
 
 \definecolor{termblue}{RGB}{51, 51, 179}
 \newcommand{\term}[1]{\textcolor{termblue}{#1}}
@@ -29,26 +36,41 @@ Phil\'{e}mon Brakel
 
 \begin{frame}[plain]
  \titlepage
+ \vspace{-2em}
+ \includegraphics[width=.8in]{mila.png}
+ \hfill
+ \includegraphics[width=.8in]{UdeM_logo}
 \end{frame}
 
 \setcounter{page}{1}
 
-\section{Recap RNNs}
+\section{Introduction}
 
-\begin{frame}
-    \frametitle{Recurrent Neural Networks}
+\begin{frame}{Recurrent Neural Networks}
+    Neural networks that can process sequences of inputs
     \begin{itemize}
-        \item Can process sequences of variable length
         \item Used to process speech, language, music,\dots
-        \item Non-linear, distributed representations, no Markov assumptions
-        \item \emph{BUT} training can be challenging
-        \item Learning long-term dependencies is difficult
-        \item Computations are not as easy to \emph{parallelize}
+        \item Recurrent Neural Networks are very powerful:
+            \begin{itemize}
+            \item Non-linear
+            \item Distributed representations
+            \item No Markov assumptions
+            \end{itemize}
+        \item However:
+            \begin{itemize}
+            \item Optimization can be challenging
+            \item Learning \emph{long-term dependencies} is difficult
+            \item Computations are not as easy to \emph{parallelize}
+            \end{itemize}
     \end{itemize}
 \end{frame}
 
 \begin{frame}
     \frametitle{Standard Architecture}
+    \begin{align*}
+        h_t &= q(W_{xh}x_t + W_{hh}h_{t-1} + b_h)\\
+        y_t &= r(W_{hy}h_{t} + b_y)
+    \end{align*}
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}[->,thick]
@@ -72,14 +94,27 @@ Phil\'{e}mon Brakel
     %\node[main] (G-\name) at (\x,0) {$\name$};
 \end{tikzpicture}
 \caption{A simple Recurrent Neural Network}
-\label{fig:birnn}
 \end{figure}
 \end{frame}
+
+
 \begin{frame}
-    \begin{align*}
-        h_t &= q(W_{xh}x_t + W_{hh}h_{t-1} + b_h)\\
-        y_t &= r(W_{hy}h_{t} + b_y)
-    \end{align*}
+\frametitle{Long Short-Term Memory (LSTM)}
+\begin{figure}[t]
+\centering
+\includegraphics[scale=.7]{lstmjozefowicz15}
+\caption{LSTM: Learn long term dependencies by asserting control over what goes in and out of \emph{memory cells}.\footnotemark}
+\end{figure}
+\footnotetext{Figure Taken from Jozefowicz et al. (2015)}
+\end{frame}
+
+\begin{frame}
+\frametitle{Long Short-Term Memory (LSTM)}
+\begin{figure}[t]
+\centering
+\includegraphics[scale=1.0]{lstmgraves}
+\caption{Another LSTM\footnote{Figure from Graves et al. (2013)}}
+\end{figure}
 \end{frame}
 
 \begin{frame}
@@ -94,22 +129,7 @@ Phil\'{e}mon Brakel
     \end{align*}
 \end{frame}
 
-\section{Long Short-Term Memory}
-\begin{frame}
-    \frametitle{Long Short-Term Memory (LSTM)}
-    Learn long term dependencies by asserting more control over what goes in and out of \emph{memory cells}.
-\end{frame}
-
-\begin{frame}
-\frametitle{Long Short-Term Memory}
-\begin{figure}[t]
-\centering
-\includegraphics{lstmjozefowicz15}
-\caption{LSTM\footnote{Taken from Jozefowicz et al. (2015)}}
-\end{figure}
-\end{frame}
-
-\begin{frame}
+\begin{frame}{RNNs can be Stacked}
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}[->,thick]
@@ -149,20 +169,15 @@ other.}
 \end{figure}
 \end{frame}
 
+\section{RNNs In Practice}
 \begin{frame}
     \frametitle{Parallelizing RNN computations}
     Apply RNNs to \emph{batches} of sequences\\
-    \begin{block}{Example}
         Present the data as a 3D tensor of $(T \times B \times F)$.
         Each dynamic update will now be a matrix multiplication.
-    \end{block}
-
-\end{frame}
-
-\begin{frame}
-    \frametitle{Parallelizing RNN computations}
+\begin{figure}
 \centering
-\resizebox{8cm}{5cm}{
+\resizebox{4cm}{2.5cm}{
 \begin{tikzpicture}
 \tikzset{every cell/.style={draw=white}}
 \tikzset{every cell 1/.style={fill=gray}}
@@ -181,30 +196,15 @@ other.}
        }
 \end{tikzpicture}
 }
+\end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Binary Masks}
+    A \emph{mask} matrix may be used to aid with computations that ignore the padded zeros.
+    In Theano this may be required to keep computations \emph{differentiable}.
+\begin{figure}
 \centering
-\resizebox{4cm}{2.5cm}{
-\begin{tikzpicture}
-\tikzset{every cell/.style={draw=black}}
-\tikzset{every cell 1/.style={fill=gray}}
-
-   \foreach \row [count=\y] in {%
-     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},%
-     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0},%
-     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0},%
-     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},%
-     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0},%
-     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},%
-     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0}}
-     \foreach \cell [count=\x] in \row  {
-        \path [every cell/.try, every cell \cell/.try]
-        (\x,-\y) rectangle ++(1,1);
-       }
-\end{tikzpicture}
-}
-\resizebox{4cm}{2.5cm}{
+\resizebox{8cm}{5cm}{
 \begin{tikzpicture}
 \tikzset{every cell/.style={draw=black}}
 \tikzset{every cell 1/.style={draw=black}}
@@ -223,9 +223,12 @@ other.}
        }
 \end{tikzpicture}
 }
+\end{figure}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Binary Masks}
+    It may be necessary to (partially) sort your data.
+\begin{figure}
 \centering
 \resizebox{8cm}{5cm}{
 \begin{tikzpicture}
@@ -245,11 +248,17 @@ other.}
        }
 \end{tikzpicture}
 }
+\end{figure}
 \end{frame}
 
-\section{RNNs with scan}
-
-
+\begin{frame}{Final Notes}
+    \begin{itemize}
+        \item<1-> Fuel has a transformer that automatically padds a batch of sequences and adds a mask
+        \item<1-> Since masks are often used for multiplication, their type should often be floating point
+        \item<1-> Be careful that your implementation doesn't nest \texttt{scan} nodes
+        \item<2-> Have fun!
+    \end{itemize}
+\end{frame}
 
 
 \end{document}
