@@ -24,7 +24,7 @@ def set_p_to_zero(pvect, i):
     i-th element to 0 and renormalize the probabilities so they
     sum to 1.
     """
-    new_pvect = T.set_subtensor(pvect[i], 0)
+    new_pvect = T.set_subtensor(pvect[i], 0.)
     new_pvect = new_pvect / new_pvect.sum()
     return new_pvect
 
